@@ -1,0 +1,264 @@
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
+import { Send, Sparkles, X } from 'lucide-react'
+import { ChatMessage, type ChatMessageItem } from '@/components/ChatMessage'
+import { LeadForm } from '@/components/LeadForm'
+import { Logo } from '@/components/Logo'
+import { QuickReplies } from '@/components/QuickReplies'
+import { WhatsAppButton } from '@/components/WhatsAppButton'
+import { business, getWhatsAppUrl } from '@/content/business'
+import {
+  getAssistantReply,
+  quickReplies,
+  successLeadMessage,
+  successReservationMessage,
+  welcomeMessage,
+  type AssistantCta
+} from '@/lib/assistant'
+import { cn } from '@/lib/utils'
+
+function createId () {
+  return `${Date.now()}-${Math.random().toString(16).slice(2)}`
+}
+
+function delay () {
+  return 500 + Math.floor(Math.random() * 300)
+}
+
+const welcome: ChatMessageItem = {
+  id: 'welcome',
+  role: 'assistant',
+  content: welcomeMessage,
+  timestamp: new Date(),
+  quickReplies
+}
+
+export function ChatWidget () {
+  const [open, setOpen] = useState(false)
+  const [input, setInput] = useState('')
+  const [typing, setTyping] = useState(false)
+  const [messages, setMessages] = useState<ChatMessageItem[]>([welcome])
+  const bottomRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    function openAssistant () {
+      setOpen(true)
+    }
+
+    function onHash () {
+      if (window.location.hash === '#asistente') openAssistant()
+    }
+
+    function onClick (event: MouseEvent) {
+      const target = (event.target as HTMLElement).closest('a[href="#asistente"]')
+      if (!target) return
+      event.preventDefault()
+      openAssistant()
+    }
+
+    onHash()
+    window.addEventListener('hashchange', onHash)
+    document.addEventListener('click', onClick)
+    return () => {
+      window.removeEventListener('hashchange', onHash)
+      document.removeEventListener('click', onClick)
+    }
+  }, [])
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages, typing, open])
+
+  useEffect(() => {
+    if (open) inputRef.current?.focus()
+  }, [open])
+
+  function pushAssistant (reply: ReturnType<typeof getAssistantReply>) {
+    setTyping(true)
+    window.setTimeout(() => {
+      setMessages((current) => [
+        ...current,
+        {
+          id: createId(),
+          role: 'assistant',
+          content: reply.text,
+          timestamp: new Date(),
+          cta: reply.cta,
+          form: reply.form,
+          quickReplies: reply.quickReplies
+        }
+      ])
+      setTyping(false)
+    }, delay())
+  }
+
+  function sendText (text: string) {
+    const value = text.trim()
+    if (!value || typing) return
+
+    setMessages((current) => [
+      ...current,
+      {
+        id: createId(),
+        role: 'user',
+        content: value,
+        timestamp: new Date()
+      }
+    ])
+    setInput('')
+    pushAssistant(getAssistantReply(value))
+  }
+
+  function handleCta (cta: AssistantCta) {
+    if (cta.action === 'whatsapp') {
+      window.location.href = getWhatsAppUrl()
+      return
+    }
+    if (cta.action === 'scroll-clases') {
+      document.getElementById('clases')?.scrollIntoView({ behavior: 'smooth' })
+      return
+    }
+    if (cta.action === 'scroll-espacio') {
+      document.getElementById('espacio')?.scrollIntoView({ behavior: 'smooth' })
+      return
+    }
+    if (cta.action === 'reserva') {
+      pushAssistant(getAssistantReply('Quiero reservar'))
+    }
+  }
+
+  const last = messages[messages.length - 1]
+
+  return (
+    <div id='asistente' className='pointer-events-none fixed inset-0 z-50'>
+      {open
+        ? (
+          <section
+            className='chat-panel pointer-events-auto absolute inset-3 flex flex-col overflow-hidden rounded-[1.6rem] border border-line bg-cream shadow-[0_24px_80px_rgba(31,27,24,0.18)] md:inset-auto md:right-6 md:bottom-24 md:h-[600px] md:w-[380px]'
+            aria-label='Asistente de Pilates Villa Crespo'
+          >
+            <header className='flex items-center justify-between border-b border-line bg-paper px-4 py-3'>
+              <div className='flex items-center gap-2.5'>
+                <span className='size-10 shrink-0 overflow-hidden'>
+                  <Logo className='size-full' />
+                </span>
+                <div>
+                  <p className='font-display text-lg leading-tight font-semibold text-ink'>
+                    {business.name}
+                  </p>
+                  <p className='text-xs text-olive'>
+                    <span className='mr-1 inline-block size-1.5 rounded-full bg-olive' />
+                    En línea
+                  </p>
+                </div>
+              </div>
+              <button
+                type='button'
+                className='inline-flex size-8 items-center justify-center rounded-full text-stone hover:bg-sand'
+                aria-label='Cerrar chat'
+                onClick={() => setOpen(false)}
+              >
+                <X size={16} />
+              </button>
+            </header>
+
+            <div className='flex-1 space-y-4 overflow-y-auto px-4 py-4'>
+              {messages.map((message) => (
+                <div key={message.id}>
+                  <ChatMessage message={message} onCta={handleCta} />
+                  {message.form
+                    ? (
+                      <LeadForm
+                        variant={message.form}
+                        onSubmit={() => {
+                          pushAssistant({
+                            text: message.form === 'reserva'
+                              ? successReservationMessage
+                              : successLeadMessage
+                          })
+                        }}
+                      />
+                      )
+                    : null}
+                </div>
+              ))}
+
+              {last?.quickReplies
+                ? (
+                  <QuickReplies
+                    replies={last.quickReplies}
+                    onSelect={sendText}
+                  />
+                  )
+                : null}
+
+              {typing
+                ? (
+                  <div className='flex w-fit gap-1 rounded-2xl bg-sand/70 px-3 py-2'>
+                    <span className='typing-dot size-1.5 rounded-full bg-stone' />
+                    <span className='typing-dot size-1.5 rounded-full bg-stone' />
+                    <span className='typing-dot size-1.5 rounded-full bg-stone' />
+                  </div>
+                  )
+                : null}
+              <div ref={bottomRef} />
+            </div>
+
+            <form
+              className='border-t border-line bg-paper p-3'
+              onSubmit={(event) => {
+                event.preventDefault()
+                sendText(input)
+              }}
+            >
+              <div className='flex items-center gap-2 rounded-full border border-line bg-cream px-3'>
+                <input
+                  ref={inputRef}
+                  value={input}
+                  onChange={(event) => setInput(event.target.value)}
+                  placeholder='Escribí tu consulta...'
+                  className='h-11 flex-1 bg-transparent text-sm text-ink outline-none placeholder:text-stone/60'
+                />
+                <button
+                  type='submit'
+                  className='inline-flex size-8 items-center justify-center rounded-full bg-clay text-paper transition-colors hover:bg-clay-dark'
+                  aria-label='Enviar'
+                >
+                  <Send size={14} />
+                </button>
+              </div>
+            </form>
+          </section>
+          )
+        : null}
+
+      <div
+        className={cn(
+          'pointer-events-auto absolute right-4 bottom-4 flex flex-col items-end gap-3 sm:right-6 sm:bottom-6',
+          open && 'hidden md:flex'
+        )}
+      >
+        {!open
+          ? (
+            <p className='rounded-full bg-paper px-3 py-2 text-xs font-medium text-ink shadow-[0_8px_24px_rgba(31,27,24,0.1)]'>
+              ¿Tenés alguna pregunta?
+            </p>
+            )
+          : null}
+        <div className='flex items-center gap-3'>
+          <WhatsAppButton />
+          <button
+            type='button'
+            className='inline-flex size-14 items-center justify-center rounded-full bg-clay text-paper shadow-[0_12px_30px_rgba(154,98,72,0.35)] transition-transform duration-300 hover:-translate-y-0.5'
+            aria-label={open ? 'Cerrar asistente' : 'Abrir asistente'}
+            onClick={() => setOpen((value) => !value)}
+          >
+            {open ? <X size={22} /> : <Sparkles size={22} />}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
