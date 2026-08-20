@@ -91,8 +91,10 @@ export const images = {
     height: 4096
   },
   og: {
-    src: local.classStanding,
-    alt: 'Pilates Villa Crespo — Reformer en Buenos Aires'
+    src: '/og.jpg',
+    alt: 'Logo de Pilates Villa Crespo',
+    width: 1200,
+    height: 630
   },
   instagram: [
     {

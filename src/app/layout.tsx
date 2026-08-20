@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Cormorant_Garamond as CormorantGaramond, Figtree } from 'next/font/google'
 import { business } from '@/content/business'
+import { getSiteUrl } from '@/lib/site'
 import './globals.css'
 
 const display = CormorantGaramond({
@@ -17,11 +18,11 @@ const sans = Figtree({
   display: 'swap'
 })
 
-const siteUrl = new URL('https://pilatesvillacrespo.demo')
+const siteUrl = getSiteUrl()
 const shareImage = {
-  url: '/logo.jpg',
-  width: 417,
-  height: 417,
+  url: '/og.jpg',
+  width: 1200,
+  height: 630,
   alt: 'Logo de Pilates Villa Crespo',
   type: 'image/jpeg'
 }
@@ -94,8 +95,8 @@ const jsonLd = {
   '@type': 'HealthClub',
   name: business.name,
   description: business.seo.description,
-  image: '/logo.jpg',
-  logo: '/logo.jpg',
+  image: `${siteUrl.origin}/og.jpg`,
+  logo: `${siteUrl.origin}/logo.jpg`,
   url: siteUrl.href,
   telephone: business.whatsapp === 'WHATSAPP_NUMBER' ? undefined : business.whatsapp,
   address: {
