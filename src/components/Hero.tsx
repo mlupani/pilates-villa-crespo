@@ -4,7 +4,7 @@ import { images } from '@/content/images'
 
 export function Hero () {
   return (
-    <section id='inicio' className='relative min-h-[100svh] overflow-hidden'>
+    <section id='inicio' className='relative h-svh min-h-svh overflow-hidden md:h-auto'>
       <div className='absolute inset-0'>
         <Image
           src={images.hero.src}
@@ -34,7 +34,7 @@ export function Hero () {
       <div className='absolute inset-0 bg-gradient-to-b from-ink/55 via-ink/45 to-ink/70' />
       <div className='absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(31,27,24,0.18),rgba(31,27,24,0.42))]' />
 
-      <div className='relative mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-center px-5 pb-28 pt-24 md:px-8 md:pb-24 md:pt-28'>
+      <div className='relative mx-auto flex h-full min-h-svh max-w-6xl flex-col justify-center px-5 pb-28 pt-[max(1.25rem,env(safe-area-inset-top))] md:px-8 md:pb-24 md:pt-28'>
         <p className='hero-enter font-display text-sm font-semibold uppercase tracking-[0.28em] text-paper/90'>
           Pilates Reformer en Villa Crespo
         </p>

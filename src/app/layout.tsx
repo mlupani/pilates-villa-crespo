@@ -30,7 +30,8 @@ const shareImage = {
 export const viewport: Viewport = {
   themeColor: '#f6f1ea',
   width: 'device-width',
-  initialScale: 1
+  initialScale: 1,
+  viewportFit: 'cover'
 }
 
 export const metadata: Metadata = {

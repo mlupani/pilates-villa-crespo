@@ -188,6 +188,22 @@ details.faq-item > summary::-webkit-details-marker {
   }
 }
 
+.fab-dock {
+  position: fixed;
+  z-index: 50;
+  right: max(1rem, env(safe-area-inset-right, 0px));
+  bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+@media (min-width: 640px) {
+  .fab-dock {
+    right: max(1.5rem, env(safe-area-inset-right, 0px));
+    bottom: max(1.5rem, env(safe-area-inset-bottom, 0px));
+  }
+}
+
 .chat-panel {
   animation: chat-in 0.35s var(--ease-soft) both;
 }

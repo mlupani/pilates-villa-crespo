@@ -132,11 +132,11 @@ export function ChatWidget () {
   const last = messages[messages.length - 1]
 
   return (
-    <div id='asistente' className='pointer-events-none fixed inset-0 z-50'>
+    <>
       {open
         ? (
           <section
-            className='chat-panel pointer-events-auto absolute inset-3 flex flex-col overflow-hidden rounded-[1.6rem] border border-line bg-cream shadow-[0_24px_80px_rgba(31,27,24,0.18)] md:inset-auto md:right-6 md:bottom-24 md:h-[600px] md:w-[380px]'
+            className='chat-panel pointer-events-auto fixed top-3 right-3 left-3 z-50 flex h-[calc(100svh-1.5rem)] flex-col overflow-hidden rounded-[1.6rem] border border-line bg-cream shadow-[0_24px_80px_rgba(31,27,24,0.18)] md:inset-auto md:top-auto md:right-6 md:bottom-24 md:left-auto md:h-[600px] md:w-[380px]'
             aria-label='Asistente de Pilates Villa Crespo'
           >
             <header className='flex items-center justify-between border-b border-line bg-paper px-4 py-3'>
@@ -235,9 +235,10 @@ export function ChatWidget () {
         : null}
 
       <div
+        id='asistente'
         className={cn(
-          'pointer-events-auto absolute right-4 bottom-4 flex flex-col items-end gap-3 sm:right-6 sm:bottom-6',
-          open && 'hidden md:flex'
+          'fab-dock pointer-events-auto flex flex-col items-end gap-3',
+          open && 'max-md:hidden'
         )}
       >
         {!open
@@ -251,7 +252,7 @@ export function ChatWidget () {
           <WhatsAppButton />
           <button
             type='button'
-            className='inline-flex size-14 items-center justify-center rounded-full bg-clay text-paper shadow-[0_12px_30px_rgba(154,98,72,0.35)] transition-transform duration-300 hover:-translate-y-0.5'
+            className='inline-flex size-14 items-center justify-center rounded-full bg-clay text-paper shadow-[0_12px_30px_rgba(154,98,72,0.35)] transition-transform duration-300 [@media(hover:hover)]:hover:-translate-y-0.5'
             aria-label={open ? 'Cerrar asistente' : 'Abrir asistente'}
             onClick={() => setOpen((value) => !value)}
           >
@@ -259,6 +260,6 @@ export function ChatWidget () {
           </button>
         </div>
       </div>
-    </div>
+    </>
   )
 }
