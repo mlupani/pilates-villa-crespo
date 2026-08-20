@@ -1,53 +1,76 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { QueryClient, QueryClientProvider, useMutation } from '@tanstack/react-query'
 import { Send, Sparkles, X } from 'lucide-react'
-import { ChatMessage, type ChatMessageItem } from '@/components/ChatMessage'
-import { LeadForm } from '@/components/LeadForm'
+import { ChatMessage } from '@/components/ChatMessage'
 import { Logo } from '@/components/Logo'
 import { QuickReplies } from '@/components/QuickReplies'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
 import { business } from '@/content/business'
-import { getWhatsAppUrl } from '@/lib/local'
 import { analyticsEvents } from '@/lib/analytics'
+import { sendAssistantMessage } from '@/lib/assistant-client'
+import { quickReplies } from '@/lib/assistant'
 import { track } from '@/lib/track'
-import {
-  getAssistantReply,
-  quickReplies,
-  successLeadMessage,
-  successReservationMessage,
-  welcomeMessage,
-  type AssistantCta
-} from '@/lib/assistant'
 import { cn } from '@/lib/utils'
+import { useAssistantStore } from '@/stores/assistant-store'
 
-function createId () {
-  return `${Date.now()}-${Math.random().toString(16).slice(2)}`
+function createQueryClient () {
+  return new QueryClient({
+    defaultOptions: {
+      mutations: { retry: 0 }
+    }
+  })
 }
 
-function delay () {
-  return 500 + Math.floor(Math.random() * 300)
-}
-
-const welcome: ChatMessageItem = {
-  id: 'welcome',
-  role: 'assistant',
-  content: welcomeMessage,
-  timestamp: new Date(),
-  quickReplies
-}
-
-export function ChatWidget () {
+function ChatWidgetPanel () {
   const [open, setOpen] = useState(false)
   const [input, setInput] = useState('')
-  const [typing, setTyping] = useState(false)
-  const [messages, setMessages] = useState<ChatMessageItem[]>([welcome])
+  const [hydrated, setHydrated] = useState(false)
+  const [error, setError] = useState('')
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const openSource = useRef<'fab' | 'hash' | 'link'>('fab')
   const hasInteracted = useRef(false)
 
+  const messages = useAssistantStore((state) => state.messages)
+  const addUserMessage = useAssistantStore((state) => state.addUserMessage)
+  const addAssistantMessage = useAssistantStore((state) => state.addAssistantMessage)
+  const setConversationId = useAssistantStore((state) => state.setConversationId)
+
+  const sendMessage = useMutation({
+    mutationFn: sendAssistantMessage,
+    onSuccess: (data) => {
+      setConversationId(data.conversationId)
+      addAssistantMessage(data.message)
+      setError('')
+    },
+    onError: () => {
+      setError('No pudimos responder ahora. Probá de nuevo en un momento.')
+    }
+  })
+
   useEffect(() => {
+    let cancelled = false
+
+    async function hydrate () {
+      try {
+        await useAssistantStore.persist.rehydrate()
+      } finally {
+        if (!cancelled) setHydrated(true)
+      }
+    }
+
+    hydrate().catch(() => undefined)
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!hydrated) return
+
     function openAssistant (source: 'hash' | 'link') {
       openSource.current = source
       setOpen(true)
@@ -71,11 +94,12 @@ export function ChatWidget () {
       window.removeEventListener('hashchange', onHash)
       document.removeEventListener('click', onClick)
     }
-  }, [])
+  }, [hydrated])
 
   useEffect(() => {
+    if (!open) return
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, typing, open])
+  }, [messages, sendMessage.isPending, open, error])
 
   useEffect(() => {
     if (open) inputRef.current?.focus()
@@ -93,39 +117,18 @@ export function ChatWidget () {
     })
   }, [open])
 
-  function pushAssistant (reply: ReturnType<typeof getAssistantReply>) {
-    setTyping(true)
-    window.setTimeout(() => {
-      setMessages((current) => [
-        ...current,
-        {
-          id: createId(),
-          role: 'assistant',
-          content: reply.text,
-          timestamp: new Date(),
-          cta: reply.cta,
-          form: reply.form,
-          quickReplies: reply.quickReplies
-        }
-      ])
-      setTyping(false)
-    }, delay())
-  }
+  const pending = sendMessage.isPending
+  const last = messages[messages.length - 1]
+  const showQuickReplies = Boolean(last && last.role === 'assistant' && !pending)
 
   function sendText (text: string) {
     const value = text.trim()
-    if (!value || typing) return
+    if (!value || pending) return
 
-    setMessages((current) => [
-      ...current,
-      {
-        id: createId(),
-        role: 'user',
-        content: value,
-        timestamp: new Date()
-      }
-    ])
+    addUserMessage(value)
     setInput('')
+    setError('')
+
     if (!hasInteracted.current) {
       hasInteracted.current = true
       track(analyticsEvents.assistantInteract, {
@@ -134,58 +137,13 @@ export function ChatWidget () {
         source: openSource.current
       })
     }
-    pushAssistant(getAssistantReply(value))
-  }
 
-  function handleCta (cta: AssistantCta) {
-    if (cta.action === 'whatsapp') {
-      track(analyticsEvents.clickWhatsapp, {
-        funnel_step: 'conversion',
-        contact_method: 'whatsapp',
-        source: 'assistant'
-      })
-      const url = getWhatsAppUrl()
-      if (url) window.location.href = url
-      return
-    }
-    if (cta.action === 'scroll-clases') {
-      setOpen(false)
-      document.getElementById('clases')?.scrollIntoView({ behavior: 'smooth' })
-      return
-    }
-    if (cta.action === 'scroll-espacio') {
-      setOpen(false)
-      document.getElementById('espacio')?.scrollIntoView({ behavior: 'smooth' })
-      return
-    }
-    if (cta.action === 'scroll-horarios') {
-      track(analyticsEvents.clickVerHorarios, {
-        funnel_step: 'interes',
-        source: 'assistant'
-      })
-      setOpen(false)
-      document.getElementById('horarios')?.scrollIntoView({ behavior: 'smooth' })
-      return
-    }
-    if (cta.action === 'scroll-ubicacion') {
-      setOpen(false)
-      document.getElementById('ubicacion')?.scrollIntoView({ behavior: 'smooth' })
-      return
-    }
-    if (cta.action === 'reserva') {
-      if (!hasInteracted.current) {
-        hasInteracted.current = true
-        track(analyticsEvents.assistantInteract, {
-          funnel_step: 'conversion',
-          interaction_type: 'cta',
-          source: openSource.current
-        })
-      }
-      pushAssistant(getAssistantReply('Quiero reservar'))
-    }
+    sendMessage.mutate({
+      message: value,
+      source: 'website',
+      conversationId: useAssistantStore.getState().conversationId ?? undefined
+    })
   }
-
-  const last = messages[messages.length - 1]
 
   return (
     <>
@@ -194,6 +152,7 @@ export function ChatWidget () {
           <section
             className='chat-panel pointer-events-auto fixed top-3 right-3 left-3 z-50 flex h-[calc(100svh-1.5rem)] flex-col overflow-hidden rounded-[1.6rem] border border-line bg-cream shadow-[0_24px_80px_rgba(31,27,24,0.18)] md:inset-auto md:top-auto md:right-6 md:bottom-24 md:left-auto md:h-[600px] md:w-[380px]'
             aria-label='Asistente de Pilates Villa Crespo'
+            aria-busy={pending}
           >
             <header className='flex items-center justify-between border-b border-line bg-paper px-4 py-3'>
               <div className='flex items-center gap-2.5'>
@@ -222,41 +181,33 @@ export function ChatWidget () {
 
             <div className='flex-1 space-y-4 overflow-y-auto px-4 py-4'>
               {messages.map((message) => (
-                <div key={message.id}>
-                  <ChatMessage message={message} onCta={handleCta} />
-                  {message.form
-                    ? (
-                      <LeadForm
-                        variant={message.form}
-                        onSubmit={() => {
-                          pushAssistant({
-                            text: message.form === 'reserva'
-                              ? successReservationMessage
-                              : successLeadMessage
-                          })
-                        }}
-                      />
-                      )
-                    : null}
-                </div>
+                <ChatMessage key={message.id} message={message} />
               ))}
 
-              {last?.quickReplies
+              {showQuickReplies
                 ? (
                   <QuickReplies
-                    replies={last.quickReplies}
+                    replies={quickReplies}
                     onSelect={sendText}
                   />
                   )
                 : null}
 
-              {typing
+              {pending
                 ? (
                   <div className='flex w-fit gap-1 rounded-2xl bg-sand/70 px-3 py-2'>
                     <span className='typing-dot size-1.5 rounded-full bg-stone' />
                     <span className='typing-dot size-1.5 rounded-full bg-stone' />
                     <span className='typing-dot size-1.5 rounded-full bg-stone' />
                   </div>
+                  )
+                : null}
+
+              {error
+                ? (
+                  <p className='rounded-2xl bg-clay/8 px-3 py-2 text-xs text-clay' role='alert'>
+                    {error}
+                  </p>
                   )
                 : null}
               <div ref={bottomRef} />
@@ -274,12 +225,15 @@ export function ChatWidget () {
                   ref={inputRef}
                   value={input}
                   onChange={(event) => setInput(event.target.value)}
-                  placeholder='Escribí tu consulta...'
-                  className='h-11 flex-1 bg-transparent text-sm text-ink outline-none placeholder:text-stone/60'
+                  placeholder={pending ? 'Esperando respuesta...' : 'Escribí tu consulta...'}
+                  disabled={pending}
+                  maxLength={4000}
+                  className='h-11 flex-1 bg-transparent text-sm text-ink outline-none placeholder:text-stone/60 disabled:opacity-70'
                 />
                 <button
                   type='submit'
-                  className='inline-flex size-8 items-center justify-center rounded-full bg-clay text-paper transition-colors hover:bg-clay-dark'
+                  disabled={pending || !input.trim()}
+                  className='inline-flex size-8 items-center justify-center rounded-full bg-clay text-paper transition-colors hover:bg-clay-dark disabled:opacity-50'
                   aria-label='Enviar'
                 >
                   <Send size={14} />
@@ -320,5 +274,15 @@ export function ChatWidget () {
         </div>
       </div>
     </>
+  )
+}
+
+export function ChatWidget () {
+  const [queryClient] = useState(createQueryClient)
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ChatWidgetPanel />
+    </QueryClientProvider>
   )
 }
