@@ -11,7 +11,7 @@ export type Intent =
 
 export interface AssistantCta {
   label: string
-  action: Intent | 'whatsapp' | 'scroll-clases' | 'scroll-espacio'
+  action: Intent | 'whatsapp' | 'scroll-clases' | 'scroll-espacio' | 'scroll-horarios' | 'scroll-ubicacion'
 }
 
 export interface AssistantReply {
@@ -102,9 +102,11 @@ const quickReplyIntents: Record<string, Intent> = {
   'ver horarios': 'horarios',
   'consultar precios': 'precios',
   'conocer las clases': 'clases',
+  'ver las clases': 'clases',
   '¿dónde están?': 'ubicacion',
   'donde estan': 'ubicacion',
-  'quiero reservar': 'reserva'
+  'quiero reservar': 'reserva',
+  'reservar una clase de prueba': 'reserva'
 }
 
 export function detectIntent (input: string): Intent {
@@ -136,34 +138,34 @@ export function getAssistantReply (input: string): AssistantReply {
   switch (intent) {
     case 'horarios':
       return {
-        text: `Tenemos diferentes horarios durante la semana. Para encontrar el que mejor se adapte a vos, puedo ayudarte a consultar disponibilidad 😊\n\n${business.schedule.map((slot) => `• ${slot.day}: ${slot.hours}`).join('\n')}`,
-        cta: { label: 'Consultar horarios', action: 'whatsapp' },
+        text: `Tenemos horarios de lunes a sábado. Para encontrar el que mejor se adapte a vos, puedo ayudarte a consultar disponibilidad 😊\n\n${business.schedule.map((slot) => `• ${slot.day}: ${slot.hours}`).join('\n')}`,
+        cta: { label: 'Ver horarios', action: 'scroll-horarios' },
         form: 'lead'
       }
     case 'precios':
       return {
-        text: 'Los planes dependen de la cantidad de clases por semana. Si querés, puedo ayudarte a encontrar la opción que mejor se adapte a vos.',
+        text: 'Los planes dependen de la cantidad de clases por semana. Si querés, te ayudo a encontrar la opción que mejor se adapte a vos y a reservar una clase de prueba.',
         cta: { label: 'Consultar planes', action: 'whatsapp' },
         form: 'lead'
       }
     case 'clases':
       return {
-        text: 'Trabajamos con clases de Pilates orientadas a fuerza, movilidad, postura y bienestar. También podemos orientarte según tu experiencia y objetivos.\n\n• Pilates Reformer\n• Pilates Mat\n• Pilates Personalizado',
-        cta: { label: 'Conocer las clases', action: 'scroll-clases' }
+        text: 'Trabajamos con clases de Pilates orientadas a fuerza, movilidad, postura y bienestar. No necesitás experiencia previa.\n\n• Pilates Reformer — todos los niveles\n• Pilates Mat — ideal para comenzar\n• Pilates Personalizado — objetivos específicos',
+        cta: { label: 'Ver las clases', action: 'scroll-clases' }
       }
     case 'ubicacion':
       return {
-        text: `Estamos en ${business.address} 📍`,
-        cta: { label: 'Ver ubicación', action: 'scroll-espacio' }
+        text: `Estamos en ${business.local.streetAddress}, ${business.local.neighborhood}, ${business.local.city} (${business.local.postalCode}) 📍\n\nA pasos de Av. Warnes y Av. Honorio Pueyrredón.`,
+        cta: { label: 'Ver ubicación', action: 'scroll-ubicacion' }
       }
     case 'primera-vez':
       return {
-        text: '¡No hay problema! 😊 No necesitás experiencia previa. Podemos orientarte para encontrar una clase adecuada para comenzar.',
-        cta: { label: 'Quiero empezar', action: 'reserva' }
+        text: '¡No hay problema! 😊 No necesitás experiencia previa. Las clases son para todos los niveles y te acompañamos desde la primera visita.',
+        cta: { label: 'Reservar una clase de prueba', action: 'reserva' }
       }
     case 'reserva':
       return {
-        text: '¡Genial! Para ayudarte con la reserva necesito algunos datos.',
+        text: '¡Genial! Para reservar tu clase de prueba necesito algunos datos.',
         form: 'reserva'
       }
     default:
@@ -172,22 +174,22 @@ export function getAssistantReply (input: string): AssistantReply {
         quickReplies: [
           'Ver horarios',
           'Consultar precios',
-          'Conocer las clases',
+          'Ver las clases',
           '¿Dónde están?',
-          'Quiero reservar'
+          'Reservar una clase de prueba'
         ]
       }
   }
 }
 
-export const welcomeMessage = 'Hola 👋 Soy el asistente de Pilates Villa Crespo. ¿En qué puedo ayudarte?'
+export const welcomeMessage = 'Hola 👋 Soy el asistente de Pilates Villa Crespo. ¿Querés reservar una clase de prueba o consultar horarios?'
 
 export const quickReplies = [
   'Ver horarios',
   'Consultar precios',
-  'Conocer las clases',
+  'Ver las clases',
   '¿Dónde están?',
-  'Quiero reservar'
+  'Reservar una clase de prueba'
 ]
 
 export const successReservationMessage =

@@ -1,7 +1,11 @@
 import type { Metadata, Viewport } from 'next'
 import { Cormorant_Garamond as CormorantGaramond, Figtree } from 'next/font/google'
+import { JsonLd } from '@/components/JsonLd'
+import { Analytics } from '@/components/Analytics'
 import { business } from '@/content/business'
-import { getSiteUrl } from '@/lib/site'
+import { getSiteJsonLd } from '@/lib/jsonld'
+import { getLocalGeoMeta } from '@/lib/local'
+import { getSiteUrl, isIndexable } from '@/lib/site'
 import './globals.css'
 
 const display = CormorantGaramond({
@@ -18,14 +22,7 @@ const sans = Figtree({
   display: 'swap'
 })
 
-const siteUrl = getSiteUrl()
-const shareImage = {
-  url: '/og.jpg',
-  width: 1200,
-  height: 630,
-  alt: 'Logo de Pilates Villa Crespo',
-  type: 'image/jpeg'
-}
+const indexable = isIndexable()
 
 export const viewport: Viewport = {
   themeColor: '#f6f1ea',
@@ -35,7 +32,7 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  metadataBase: siteUrl,
+  metadataBase: getSiteUrl(),
   title: {
     default: business.seo.title,
     template: `%s | ${business.name}`
@@ -47,15 +44,14 @@ export const metadata: Metadata = {
   publisher: business.name,
   category: 'health',
   keywords: business.seo.keywords,
-  alternates: {
-    canonical: '/'
-  },
+  referrer: 'origin-when-cross-origin',
   robots: {
-    index: true,
-    follow: true,
+    index: indexable,
+    follow: indexable,
+    nocache: !indexable,
     googleBot: {
-      index: true,
-      follow: true,
+      index: indexable,
+      follow: indexable,
       'max-image-preview': 'large',
       'max-snippet': -1,
       'max-video-preview': -1
@@ -66,51 +62,23 @@ export const metadata: Metadata = {
     address: false,
     telephone: false
   },
-  icons: {
-    icon: [{ url: '/logo.jpg', type: 'image/jpeg', sizes: '417x417' }],
-    apple: [{ url: '/logo.jpg', type: 'image/jpeg', sizes: '417x417' }],
-    shortcut: '/logo.jpg'
-  },
   openGraph: {
     title: business.seo.title,
     description: business.seo.description,
     url: '/',
     locale: 'es_AR',
     type: 'website',
-    siteName: business.name,
-    images: [shareImage]
+    siteName: business.name
   },
   twitter: {
     card: 'summary_large_image',
     title: business.seo.title,
-    description: business.seo.description,
-    images: [shareImage]
+    description: business.seo.description
   },
-  other: {
-    'og:image:type': 'image/jpeg'
-  }
-}
-
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'HealthClub',
-  name: business.name,
-  description: business.seo.description,
-  image: `${siteUrl.origin}/og.jpg`,
-  logo: `${siteUrl.origin}/logo.jpg`,
-  url: siteUrl.href,
-  telephone: business.whatsapp === 'WHATSAPP_NUMBER' ? undefined : business.whatsapp,
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: business.neighborhood,
-    addressRegion: business.city,
-    addressCountry: 'AR'
-  },
-  areaServed: {
-    '@type': 'City',
-    name: `${business.neighborhood}, ${business.city}`
-  },
-  sameAs: [business.instagramUrl]
+  verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+    : undefined,
+  other: getLocalGeoMeta()
 }
 
 export default function RootLayout ({ children }: LayoutProps<'/'>) {
@@ -120,11 +88,9 @@ export default function RootLayout ({ children }: LayoutProps<'/'>) {
       className={`${display.variable} ${sans.variable} h-full antialiased`}
     >
       <body className='min-h-full bg-cream font-sans text-ink'>
-        <script
-          type='application/ld+json'
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <JsonLd data={getSiteJsonLd()} />
         {children}
+        <Analytics />
       </body>
     </html>
   )

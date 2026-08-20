@@ -1,7 +1,15 @@
 import Image from 'next/image'
 import { ArrowUpRight } from 'lucide-react'
+import { SmartLink } from '@/components/SmartLink'
 import { business } from '@/content/business'
 import { images } from '@/content/images'
+import { routes } from '@/lib/routes'
+
+function classHref (id: string) {
+  if (id === 'reformer') return routes.reformer
+  if (id === 'personal') return `${routes.classes}#pilates-personalizado`
+  return `${routes.classes}#pilates-${id}`
+}
 
 export function Classes () {
   return (
@@ -12,8 +20,11 @@ export function Classes () {
             Modalidades
           </p>
           <h2 className='mt-4 font-display text-4xl font-semibold leading-tight text-ink md:text-5xl'>
-            Encontrá la clase ideal para vos
+            Encontrá la clase de Pilates ideal para vos
           </h2>
+          <p className='mt-5 max-w-xl text-base leading-relaxed text-stone'>
+            Reformer, Mat o una sesión personalizada. Todas se adaptan a tu nivel: no hace falta haber practicado antes.
+          </p>
         </div>
 
         <div className='mt-12 grid gap-6 md:grid-cols-3'>
@@ -31,23 +42,27 @@ export function Classes () {
                     alt={image.alt}
                     fill
                     sizes='(max-width: 768px) 92vw, 33vw'
+                    quality={70}
                     className='object-cover object-[center_30%]'
                   />
                 </div>
                 <div className='px-6 py-6'>
-                  <h3 className='font-display text-2xl font-medium text-ink'>
+                  <p className='text-xs font-semibold uppercase tracking-[0.16em] text-olive'>
+                    {item.forWhom}
+                  </p>
+                  <h3 className='mt-2 font-display text-2xl font-medium text-ink'>
                     {item.name}
                   </h3>
                   <p className='mt-2 text-sm leading-relaxed text-stone'>
                     {item.description}
                   </p>
-                  <a
-                    href='#asistente'
+                  <SmartLink
+                    href={classHref(item.id)}
                     className='mt-5 inline-flex items-center gap-1 text-sm font-semibold text-clay transition-colors duration-300 hover:text-clay-dark'
                   >
-                    Consultar
+                    Conocer más
                     <ArrowUpRight className='size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5' />
-                  </a>
+                  </SmartLink>
                 </div>
               </article>
             )

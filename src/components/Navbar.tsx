@@ -1,9 +1,12 @@
 'use client'
 
 import { useState, useSyncExternalStore } from 'react'
+import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import { Logo } from '@/components/Logo'
+import { SmartLink } from '@/components/SmartLink'
 import { business } from '@/content/business'
+import { routes } from '@/lib/routes'
 import { cn } from '@/lib/utils'
 
 const SCROLL_SHOW_AT = 16
@@ -21,14 +24,19 @@ function getScrollServerSnapshot () {
   return false
 }
 
-export function Navbar () {
+interface NavbarProps {
+  variant?: 'landing' | 'page'
+}
+
+export function Navbar ({ variant = 'page' }: NavbarProps) {
   const [open, setOpen] = useState(false)
+  const pathname = usePathname()
   const scrolled = useSyncExternalStore(
     subscribeScroll,
     getScrollSnapshot,
     getScrollServerSnapshot
   )
-  const visible = scrolled || open
+  const visible = variant === 'page' || scrolled || open
 
   return (
     <header
@@ -43,27 +51,31 @@ export function Navbar () {
       )}
     >
       <nav className='mx-auto flex max-w-6xl items-center justify-between px-5 py-2.5 md:px-8'>
-        <a href='#inicio' className='block h-16 w-16 shrink-0 md:h-[4.75rem] md:w-[4.75rem]' aria-label='Pilates Villa Crespo'>
-          <Logo priority className='size-full' />
-        </a>
+        <SmartLink href={routes.home} className='block h-16 w-16 shrink-0 md:h-[4.75rem] md:w-[4.75rem]'>
+          <span className='sr-only'>Pilates Villa Crespo</span>
+          <Logo className='size-full' />
+        </SmartLink>
 
         <ul className='hidden items-center gap-8 text-sm text-stone md:flex'>
           {business.nav.map((link) => (
             <li key={link.href}>
-              <a
+              <SmartLink
                 href={link.href}
-                className='transition-colors duration-300 hover:text-ink'
+                className={cn(
+                  'transition-colors duration-300 hover:text-ink',
+                  pathname === link.href && 'text-ink'
+                )}
               >
                 {link.label}
-              </a>
+              </SmartLink>
             </li>
           ))}
         </ul>
 
         <div className='flex items-center gap-3'>
-          <a href='#reservar' className='btn-primary hidden px-5 py-2.5 text-[13px] md:inline-flex'>
-            Reservar una clase
-          </a>
+          <SmartLink href={routes.trial} className='btn-primary hidden px-5 py-2.5 text-[13px] md:inline-flex'>
+            {business.cta.trialShort}
+          </SmartLink>
           <button
             type='button'
             className='inline-flex size-10 items-center justify-center rounded-full border border-line text-ink md:hidden'
@@ -86,23 +98,23 @@ export function Navbar () {
         <ul className='flex flex-col gap-1 px-5 py-4 text-sm'>
           {business.nav.map((link) => (
             <li key={link.href}>
-              <a
+              <SmartLink
                 href={link.href}
                 className='block rounded-xl px-3 py-3 text-stone transition-colors hover:bg-sand/50 hover:text-ink'
                 onClick={() => setOpen(false)}
               >
                 {link.label}
-              </a>
+              </SmartLink>
             </li>
           ))}
           <li>
-            <a
-              href='#reservar'
+            <SmartLink
+              href={routes.trial}
               className='btn-primary mt-2 w-full'
               onClick={() => setOpen(false)}
             >
-              Reservar una clase
-            </a>
+              {business.cta.trialShort}
+            </SmartLink>
           </li>
         </ul>
       </div>

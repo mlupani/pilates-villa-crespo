@@ -15,3 +15,16 @@ export const reservationSchema = z.object({
 
 export type LeadFormValues = z.infer<typeof leadSchema>
 export type ReservationFormValues = z.infer<typeof reservationSchema>
+
+export const leadCaptureSchema = z.object({
+  variant: z.enum(['lead', 'reserva']),
+  name: z.string().trim().min(2),
+  whatsapp: z.string().trim().min(8),
+  message: z.string().trim().optional(),
+  day: z.string().trim().optional(),
+  time: z.string().trim().optional(),
+  page_path: z.string().trim().min(1),
+  occurred_at: z.string().trim().min(1)
+})
+
+export type LeadCaptureInput = z.infer<typeof leadCaptureSchema>

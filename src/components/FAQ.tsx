@@ -2,14 +2,28 @@
 
 import { useState } from 'react'
 import { Plus } from 'lucide-react'
-import { business } from '@/content/business'
+import { SmartLink } from '@/components/SmartLink'
+import { business, type FaqItem } from '@/content/business'
+import { routes } from '@/lib/routes'
 import { cn } from '@/lib/utils'
 
-export function Faq () {
+interface FaqProps {
+  items?: FaqItem[]
+  description?: string
+  ctaHref?: string
+  ctaLabel?: string
+}
+
+export function Faq ({
+  items = business.faq,
+  description = 'Si es tu primera vez, no hace falta experiencia. Reservá una clase de prueba y te orientamos en todo.',
+  ctaHref = routes.trial,
+  ctaLabel = business.cta.trial
+}: FaqProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
   return (
-    <section id='faq' className='bg-paper px-5 py-20 md:px-8 md:py-28'>
+    <section id='faq' className='bg-cream px-5 py-20 md:px-8 md:py-28'>
       <div className='mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.8fr_1.2fr]'>
         <div className='reveal lg:sticky lg:top-28 lg:self-start'>
           <p className='text-xs font-semibold uppercase tracking-[0.28em] text-olive'>
@@ -18,10 +32,16 @@ export function Faq () {
           <h2 className='mt-4 font-display text-4xl font-semibold leading-tight text-ink md:text-5xl'>
             Preguntas frecuentes
           </h2>
+          <p className='mt-5 max-w-sm text-sm leading-relaxed text-stone'>
+            {description}
+          </p>
+          <SmartLink href={ctaHref} className='btn-primary mt-8 hidden lg:inline-flex'>
+            {ctaLabel}
+          </SmartLink>
         </div>
 
         <div className='reveal divide-y divide-line border-y border-line'>
-          {business.faq.map((item, index) => {
+          {items.map((item, index) => {
             const open = openIndex === index
 
             return (
@@ -55,6 +75,11 @@ export function Faq () {
               </div>
             )
           })}
+        </div>
+        <div className='reveal mt-8 lg:hidden'>
+          <SmartLink href={ctaHref} className='btn-primary w-full'>
+            {ctaLabel}
+          </SmartLink>
         </div>
       </div>
     </section>

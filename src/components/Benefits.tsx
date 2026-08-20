@@ -16,10 +16,10 @@ export function Benefits () {
             El estudio
           </p>
           <h2 className='mt-4 font-display text-4xl font-semibold leading-tight text-ink md:text-5xl'>
-            Pilates pensado para vos
+            Pilates pensado para vos, en Villa Crespo
           </h2>
           <p className='mt-5 max-w-xl text-base leading-relaxed text-stone'>
-            Creemos que cada cuerpo es diferente. Por eso nuestras clases buscan acompañarte de manera personalizada, respetando tus objetivos, tu experiencia y tu ritmo.
+            Creemos que cada cuerpo es diferente. Por eso las clases acompañan tu objetivo, tu experiencia y tu ritmo. {business.audience}
           </p>
         </div>
 

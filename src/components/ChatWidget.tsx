@@ -7,7 +7,10 @@ import { LeadForm } from '@/components/LeadForm'
 import { Logo } from '@/components/Logo'
 import { QuickReplies } from '@/components/QuickReplies'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
-import { business, getWhatsAppUrl } from '@/content/business'
+import { business } from '@/content/business'
+import { getWhatsAppUrl } from '@/lib/local'
+import { analyticsEvents } from '@/lib/analytics'
+import { track } from '@/lib/track'
 import {
   getAssistantReply,
   quickReplies,
@@ -41,21 +44,24 @@ export function ChatWidget () {
   const [messages, setMessages] = useState<ChatMessageItem[]>([welcome])
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const openSource = useRef<'fab' | 'hash' | 'link'>('fab')
+  const hasInteracted = useRef(false)
 
   useEffect(() => {
-    function openAssistant () {
+    function openAssistant (source: 'hash' | 'link') {
+      openSource.current = source
       setOpen(true)
     }
 
     function onHash () {
-      if (window.location.hash === '#asistente') openAssistant()
+      if (window.location.hash === '#asistente') openAssistant('hash')
     }
 
     function onClick (event: MouseEvent) {
       const target = (event.target as HTMLElement).closest('a[href="#asistente"]')
       if (!target) return
       event.preventDefault()
-      openAssistant()
+      openAssistant('link')
     }
 
     onHash()
@@ -73,6 +79,18 @@ export function ChatWidget () {
 
   useEffect(() => {
     if (open) inputRef.current?.focus()
+  }, [open])
+
+  useEffect(() => {
+    if (!open) {
+      hasInteracted.current = false
+      return
+    }
+
+    track(analyticsEvents.assistantOpen, {
+      funnel_step: 'conversion',
+      source: openSource.current
+    })
   }, [open])
 
   function pushAssistant (reply: ReturnType<typeof getAssistantReply>) {
@@ -108,23 +126,61 @@ export function ChatWidget () {
       }
     ])
     setInput('')
+    if (!hasInteracted.current) {
+      hasInteracted.current = true
+      track(analyticsEvents.assistantInteract, {
+        funnel_step: 'conversion',
+        interaction_type: 'message',
+        source: openSource.current
+      })
+    }
     pushAssistant(getAssistantReply(value))
   }
 
   function handleCta (cta: AssistantCta) {
     if (cta.action === 'whatsapp') {
-      window.location.href = getWhatsAppUrl()
+      track(analyticsEvents.clickWhatsapp, {
+        funnel_step: 'conversion',
+        contact_method: 'whatsapp',
+        source: 'assistant'
+      })
+      const url = getWhatsAppUrl()
+      if (url) window.location.href = url
       return
     }
     if (cta.action === 'scroll-clases') {
+      setOpen(false)
       document.getElementById('clases')?.scrollIntoView({ behavior: 'smooth' })
       return
     }
     if (cta.action === 'scroll-espacio') {
+      setOpen(false)
       document.getElementById('espacio')?.scrollIntoView({ behavior: 'smooth' })
       return
     }
+    if (cta.action === 'scroll-horarios') {
+      track(analyticsEvents.clickVerHorarios, {
+        funnel_step: 'interes',
+        source: 'assistant'
+      })
+      setOpen(false)
+      document.getElementById('horarios')?.scrollIntoView({ behavior: 'smooth' })
+      return
+    }
+    if (cta.action === 'scroll-ubicacion') {
+      setOpen(false)
+      document.getElementById('ubicacion')?.scrollIntoView({ behavior: 'smooth' })
+      return
+    }
     if (cta.action === 'reserva') {
+      if (!hasInteracted.current) {
+        hasInteracted.current = true
+        track(analyticsEvents.assistantInteract, {
+          funnel_step: 'conversion',
+          interaction_type: 'cta',
+          source: openSource.current
+        })
+      }
       pushAssistant(getAssistantReply('Quiero reservar'))
     }
   }
@@ -244,7 +300,7 @@ export function ChatWidget () {
         {!open
           ? (
             <p className='rounded-full bg-paper px-3 py-2 text-xs font-medium text-ink shadow-[0_8px_24px_rgba(31,27,24,0.1)]'>
-              ¿Tenés alguna pregunta?
+              ¿Reservamos tu clase de prueba?
             </p>
             )
           : null}
@@ -254,7 +310,10 @@ export function ChatWidget () {
             type='button'
             className='inline-flex size-14 items-center justify-center rounded-full bg-clay text-paper shadow-[0_12px_30px_rgba(154,98,72,0.35)] transition-transform duration-300 [@media(hover:hover)]:hover:-translate-y-0.5'
             aria-label={open ? 'Cerrar asistente' : 'Abrir asistente'}
-            onClick={() => setOpen((value) => !value)}
+            onClick={() => {
+              if (!open) openSource.current = 'fab'
+              setOpen((value) => !value)
+            }}
           >
             {open ? <X size={22} /> : <Sparkles size={22} />}
           </button>

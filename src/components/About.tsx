@@ -6,7 +6,7 @@ export function About () {
   const { instructor } = business
 
   return (
-    <section id='profesora' className='bg-paper px-5 py-20 md:px-8 md:py-28'>
+    <section id='profesora' className='bg-cream px-5 py-20 md:px-8 md:py-28'>
       <div className='mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[0.85fr_1.15fr] md:gap-16'>
         <div className='reveal img-zoom relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-[1.8rem]'>
           <Image
@@ -14,6 +14,7 @@ export function About () {
             alt={images.instructor.alt}
             fill
             sizes='(max-width: 768px) 92vw, 28rem'
+            quality={70}
             className='object-cover object-[center_20%]'
           />
         </div>
@@ -29,8 +30,9 @@ export function About () {
             {instructor.bio}
           </p>
           <div className='mt-8 flex flex-wrap gap-3 text-xs font-medium uppercase tracking-[0.16em] text-stone'>
-            <span className='rounded-full bg-cream px-4 py-2'>{instructor.role}</span>
-            <span className='rounded-full bg-cream px-4 py-2'>{instructor.highlight}</span>
+            <span className='rounded-full bg-paper px-4 py-2'>{instructor.role}</span>
+            <span className='rounded-full bg-paper px-4 py-2'>{instructor.highlight}</span>
+            <span className='rounded-full bg-paper px-4 py-2'>Todos los niveles</span>
           </div>
         </div>
       </div>

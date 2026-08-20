@@ -1,5 +1,8 @@
 import { Logo } from '@/components/Logo'
-import { business, getWhatsAppUrl } from '@/content/business'
+import { SmartLink } from '@/components/SmartLink'
+import { business } from '@/content/business'
+import { getEmail, getPublicProfiles, getTelephone, getWhatsAppUrl } from '@/lib/local'
+import { routes } from '@/lib/routes'
 
 function InstagramIcon () {
   return (
@@ -19,15 +22,21 @@ function InstagramIcon () {
 }
 
 export function Footer () {
+  const whatsappUrl = getWhatsAppUrl()
+  const telephone = getTelephone()
+  const email = getEmail()
+  const profiles = getPublicProfiles()
+
   return (
     <footer className='border-t border-line bg-cream px-5 py-14 md:px-8'>
       <div className='mx-auto grid max-w-6xl gap-10 md:grid-cols-[1.2fr_1fr_1fr]'>
         <div>
-          <a href='#inicio' className='inline-block h-24 w-24' aria-label='Pilates Villa Crespo'>
+          <SmartLink href={routes.home} className='inline-block h-24 w-24'>
+            <span className='sr-only'>{business.name}</span>
             <Logo className='size-full' />
-          </a>
+          </SmartLink>
           <p className='mt-3 max-w-xs text-sm leading-relaxed text-stone'>
-            Un espacio íntimo para moverte mejor, en el corazón de Villa Crespo.
+            Estudio de Pilates en Villa Crespo, Buenos Aires. Un espacio íntimo para moverte mejor, con o sin experiencia previa.
           </p>
         </div>
 
@@ -36,37 +45,82 @@ export function Footer () {
             Navegación
           </p>
           <ul className='mt-4 space-y-2 text-sm text-stone'>
-            <li><a href='#inicio' className='hover:text-ink'>Inicio</a></li>
-            <li><a href='#clases' className='hover:text-ink'>Clases</a></li>
-            <li><a href='#faq' className='hover:text-ink'>Preguntas frecuentes</a></li>
-            <li><a href='#reservar' className='hover:text-ink'>Contacto</a></li>
+            <li><SmartLink href={routes.home} className='hover:text-ink'>Inicio</SmartLink></li>
+            <li><SmartLink href={routes.villaCrespo} className='hover:text-ink'>Pilates en Villa Crespo</SmartLink></li>
+            <li><SmartLink href={routes.classes} className='hover:text-ink'>Clases de Pilates</SmartLink></li>
+            <li><SmartLink href={routes.reformer} className='hover:text-ink'>Pilates Reformer</SmartLink></li>
+            <li><SmartLink href={routes.schedule} className='hover:text-ink'>Horarios y precios</SmartLink></li>
+            <li><SmartLink href={routes.trial} className='hover:text-ink'>Clase de prueba</SmartLink></li>
+            <li><SmartLink href={`${routes.villaCrespo}#contacto`} className='hover:text-ink'>Contacto</SmartLink></li>
           </ul>
         </div>
 
-        <div>
+        <address className='not-italic'>
           <p className='text-xs font-semibold uppercase tracking-[0.22em] text-olive'>
             Contacto
           </p>
           <ul className='mt-4 space-y-3 text-sm text-stone'>
             <li>
-              <a
-                href={business.instagramUrl}
-                target='_blank'
-                rel='noreferrer'
-                className='inline-flex items-center gap-2 hover:text-ink'
-              >
-                <InstagramIcon />
-                {business.instagram}
-              </a>
+              <SmartLink href={`${routes.villaCrespo}#ubicacion`} className='hover:text-ink'>
+                {business.local.streetAddress}
+              </SmartLink>
             </li>
             <li>
-              <a href={getWhatsAppUrl()} className='hover:text-ink'>
-                WhatsApp
-              </a>
+              {business.local.neighborhood}, {business.local.city}
             </li>
-            <li>{business.address}</li>
+            <li>
+              {business.local.region} · {business.local.postalCode}
+            </li>
+            {telephone
+              ? (
+                <li>
+                  <a href={`tel:${telephone}`} className='hover:text-ink'>
+                    {telephone}
+                  </a>
+                </li>
+                )
+              : null}
+            {whatsappUrl
+              ? (
+                <li>
+                  <a href={whatsappUrl} className='hover:text-ink'>
+                    WhatsApp
+                  </a>
+                </li>
+                )
+              : null}
+            {email
+              ? (
+                <li>
+                  <a href={`mailto:${email}`} className='hover:text-ink'>
+                    {email}
+                  </a>
+                </li>
+                )
+              : null}
+            {profiles.map((profile) => (
+              <li key={profile.label}>
+                <a
+                  href={profile.url}
+                  target='_blank'
+                  rel='noreferrer'
+                  className={profile.label === 'Instagram'
+                    ? 'inline-flex items-center gap-2 hover:text-ink'
+                    : 'hover:text-ink'}
+                >
+                  {profile.label === 'Instagram'
+                    ? (
+                      <>
+                        <InstagramIcon />
+                        {business.instagram}
+                      </>
+                      )
+                    : profile.label}
+                </a>
+              </li>
+            ))}
           </ul>
-        </div>
+        </address>
       </div>
     </footer>
   )

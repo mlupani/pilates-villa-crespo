@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, type FormEvent } from 'react'
+import { captureLead } from '@/lib/leads'
 import { leadSchema, reservationSchema } from '@/lib/schemas'
 
 interface LeadFormProps {
@@ -31,6 +32,12 @@ export function LeadForm ({ variant, onSubmit }: LeadFormProps) {
 
     setError('')
     setSent(true)
+    captureLead({
+      variant,
+      ...result.data,
+      page_path: window.location.pathname,
+      occurred_at: new Date().toISOString()
+    })
     onSubmit()
   }
 
@@ -110,7 +117,7 @@ export function LeadForm ({ variant, onSubmit }: LeadFormProps) {
           )}
       {error ? <p className='text-xs text-clay'>{error}</p> : null}
       <button type='submit' className='btn-primary w-full py-2.5 text-xs'>
-        {variant === 'reserva' ? 'Enviar consulta' : 'Quiero que me contacten'}
+        {variant === 'reserva' ? 'Reservar clase de prueba' : 'Quiero que me contacten'}
       </button>
     </form>
   )

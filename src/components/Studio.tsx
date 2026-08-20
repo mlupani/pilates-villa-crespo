@@ -16,6 +16,7 @@ export function Studio () {
                 alt={main.alt}
                 fill
                 sizes='(max-width: 768px) 92vw, (max-width: 1024px) 70vw, 640px'
+                quality={70}
                 className='object-cover object-[center_28%]'
               />
             </div>
@@ -25,6 +26,7 @@ export function Studio () {
                 alt={second.alt}
                 fill
                 sizes='(max-width: 768px) 50vw, 30vw'
+                quality={70}
                 className='object-cover'
               />
             </div>
@@ -34,6 +36,7 @@ export function Studio () {
                 alt={third.alt}
                 fill
                 sizes='(max-width: 768px) 50vw, 30vw'
+                quality={70}
                 className='object-cover'
               />
             </div>
@@ -44,6 +47,7 @@ export function Studio () {
               alt={fourth.alt}
               fill
               sizes='(max-width: 768px) 92vw, (max-width: 1024px) 70vw, 640px'
+              quality={70}
               className='object-cover'
             />
           </div>
@@ -63,13 +67,8 @@ export function Studio () {
             {business.neighborhood} · {business.city}
           </p>
           <div className='mt-8'>
-            <a
-              href={business.mapsUrl}
-              target='_blank'
-              rel='noreferrer'
-              className='btn-outline'
-            >
-              Cómo llegar
+            <a href='#ubicacion' className='btn-outline'>
+              Ver ubicación
             </a>
           </div>
         </div>
@@ -93,6 +92,7 @@ export function Studio () {
                 alt={post.alt}
                 fill
                 sizes='(max-width: 768px) 42vw, 20vw'
+                quality={65}
                 className='object-cover'
               />
             </a>

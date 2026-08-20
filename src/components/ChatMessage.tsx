@@ -1,5 +1,6 @@
 import { formatTime } from '@/lib/utils'
 import type { AssistantCta } from '@/lib/assistant'
+import { getWhatsAppUrl } from '@/lib/local'
 
 export interface ChatMessageItem {
   id: string
@@ -18,6 +19,11 @@ interface ChatMessageProps {
 
 export function ChatMessage ({ message, onCta }: ChatMessageProps) {
   const isUser = message.role === 'user'
+  const showCta = Boolean(
+    message.cta &&
+    !isUser &&
+    (message.cta.action !== 'whatsapp' || getWhatsAppUrl())
+  )
 
   return (
     <article className={`flex ${isUser ? 'justify-end' : 'justify-start'}`}>
@@ -31,14 +37,14 @@ export function ChatMessage ({ message, onCta }: ChatMessageProps) {
         >
           {message.content}
         </div>
-        {message.cta && !isUser
+        {showCta
           ? (
             <button
               type='button'
               className='mt-1 rounded-full border border-line bg-paper px-3 py-1.5 text-xs font-semibold text-clay transition-colors hover:bg-sand'
               onClick={() => onCta?.(message.cta!)}
             >
-              {message.cta.label}
+              {message.cta!.label}
             </button>
             )
           : null}
