@@ -13,7 +13,7 @@ export function TrialGuide () {
             Cómo funciona
           </p>
           <h2 className='mt-4 font-display text-4xl font-semibold leading-tight text-ink md:text-5xl'>
-            De la reserva a tu primera clase
+            De la primera conversación a tu clase
           </h2>
         </div>
 

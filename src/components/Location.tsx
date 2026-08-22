@@ -10,13 +10,12 @@ import {
   getTelephone,
   getWhatsAppUrl
 } from '@/lib/local'
-import { routes } from '@/lib/routes'
 
 interface LocationProps {
   trialHref?: string
 }
 
-export function Location ({ trialHref = routes.trial }: LocationProps) {
+export function Location ({ trialHref = '#asistente' }: LocationProps) {
   const whatsappUrl = getWhatsAppUrl()
   const telephone = getTelephone()
   const email = getEmail()
@@ -81,25 +80,28 @@ export function Location ({ trialHref = routes.trial }: LocationProps) {
             </ul>
 
             <div className='mt-8 flex flex-col gap-3'>
-              {whatsappUrl
-                ? (
-                  <a href={whatsappUrl} className='btn-primary'>
-                    {business.cta.whatsapp}
-                  </a>
-                  )
-                : (
-                  <SmartLink href={trialHref} className='btn-primary'>
-                    {business.cta.trial}
-                  </SmartLink>
-                  )}
               <a
                 href={getMapsUrl()}
                 target='_blank'
                 rel='noreferrer'
-                className='btn-outline'
+                className='btn-primary'
               >
                 {business.cta.directions}
               </a>
+              <SmartLink href='#asistente' intent='location' className='btn-outline'>
+                {business.cta.howToArrive}
+              </SmartLink>
+              {whatsappUrl
+                ? (
+                  <a href={whatsappUrl} className='btn-outline'>
+                    {business.cta.whatsapp}
+                  </a>
+                  )
+                : (
+                  <SmartLink href={trialHref} intent='trial' className='btn-outline'>
+                    {business.cta.trial}
+                  </SmartLink>
+                  )}
             </div>
 
             <ul className='mt-6 space-y-2 text-sm'>

@@ -59,8 +59,8 @@ export function ClassGuide () {
                       </SmartLink>
                       )
                     : null}
-                  <SmartLink href={routes.trial} className='btn-primary'>
-                    Probar una clase
+                  <SmartLink href='#asistente' intent='trial' className='btn-primary'>
+                    {business.cta.trial}
                   </SmartLink>
                 </div>
               </div>

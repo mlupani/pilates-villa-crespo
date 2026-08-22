@@ -3,54 +3,63 @@ import { business } from '@/content/business'
 import { images } from '@/content/images'
 
 export function Studio () {
-  const [main, second, third, fourth] = images.studio
+  const [main, second, third] = images.studio
 
   return (
     <section id='espacio' className='bg-cream px-5 py-20 md:px-8 md:py-28'>
-      <div className='mx-auto grid max-w-6xl items-end gap-10 lg:grid-cols-[1.15fr_0.85fr]'>
-        <div className='reveal'>
-          <div className='grid grid-cols-2 gap-3 md:grid-cols-3 md:grid-rows-[minmax(240px,1fr)_minmax(240px,1fr)] md:h-[540px] md:gap-4'>
-            <div className='img-zoom relative col-span-2 aspect-[16/11] overflow-hidden rounded-[1.5rem] md:col-span-2 md:row-span-2 md:aspect-auto'>
-              <Image
-                src={main.src}
-                alt={main.alt}
-                fill
-                sizes='(max-width: 768px) 92vw, (max-width: 1024px) 70vw, 640px'
-                quality={70}
-                className='object-cover object-[center_28%]'
-              />
-            </div>
-            <div className='img-zoom relative aspect-[4/3] overflow-hidden rounded-[1.4rem] md:aspect-auto'>
-              <Image
-                src={second.src}
-                alt={second.alt}
-                fill
-                sizes='(max-width: 768px) 50vw, 30vw'
-                quality={70}
-                className='object-cover'
-              />
-            </div>
-            <div className='img-zoom relative aspect-[4/3] overflow-hidden rounded-[1.4rem] md:aspect-auto'>
-              <Image
-                src={third.src}
-                alt={third.alt}
-                fill
-                sizes='(max-width: 768px) 50vw, 30vw'
-                quality={70}
-                className='object-cover'
-              />
-            </div>
-          </div>
-          <div className='img-zoom relative mt-3 aspect-[16/7] overflow-hidden rounded-[1.4rem] md:mt-4'>
+      <div className='mx-auto grid max-w-6xl items-end gap-10 lg:grid-cols-[1.2fr_0.8fr]'>
+        <div className='reveal grid gap-3 md:grid-cols-3 md:grid-rows-[minmax(280px,1fr)_minmax(180px,auto)] md:h-[560px] md:gap-4'>
+          <figure className='img-ken relative col-span-2 aspect-[16/11] overflow-hidden rounded-[1.5rem] md:col-span-2 md:row-span-2 md:aspect-auto'>
             <Image
-              src={fourth.src}
-              alt={fourth.alt}
+              src={main.src}
+              alt={main.alt}
               fill
               sizes='(max-width: 768px) 92vw, (max-width: 1024px) 70vw, 640px'
               quality={70}
+              className='object-cover object-[center_28%]'
+            />
+            {main.caption
+              ? (
+                <figcaption className='absolute bottom-4 left-4 rounded-full bg-ink/55 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-paper backdrop-blur-sm'>
+                  {main.caption}
+                </figcaption>
+                )
+              : null}
+          </figure>
+          <figure className='img-ken relative aspect-[4/3] overflow-hidden rounded-[1.4rem] md:aspect-auto'>
+            <Image
+              src={second.src}
+              alt={second.alt}
+              fill
+              sizes='(max-width: 768px) 50vw, 30vw'
+              quality={70}
               className='object-cover'
             />
-          </div>
+            {second.caption
+              ? (
+                <figcaption className='absolute bottom-3 left-3 rounded-full bg-ink/55 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-paper backdrop-blur-sm'>
+                  {second.caption}
+                </figcaption>
+                )
+              : null}
+          </figure>
+          <figure className='img-ken relative aspect-[4/3] overflow-hidden rounded-[1.4rem] md:aspect-auto'>
+            <Image
+              src={third.src}
+              alt={third.alt}
+              fill
+              sizes='(max-width: 768px) 50vw, 30vw'
+              quality={70}
+              className='object-cover'
+            />
+            {third.caption
+              ? (
+                <figcaption className='absolute bottom-3 left-3 rounded-full bg-ink/55 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-paper backdrop-blur-sm'>
+                  {third.caption}
+                </figcaption>
+                )
+              : null}
+          </figure>
         </div>
 
         <div className='reveal pb-2'>
@@ -71,32 +80,6 @@ export function Studio () {
               Ver ubicación
             </a>
           </div>
-        </div>
-      </div>
-
-      <div className='reveal mx-auto mt-12 max-w-6xl md:mt-16'>
-        <p className='mb-4 text-xs font-semibold uppercase tracking-[0.22em] text-olive'>
-          {business.instagram}
-        </p>
-        <div className='flex gap-2 overflow-x-auto pb-1 md:grid md:grid-cols-5 md:gap-3 md:overflow-visible'>
-          {images.instagram.map((post) => (
-            <a
-              key={post.src}
-              href={business.instagramUrl}
-              target='_blank'
-              rel='noreferrer'
-              className='img-zoom relative aspect-[4/5] w-[42vw] shrink-0 overflow-hidden rounded-[1rem] md:w-auto md:rounded-[1.3rem]'
-            >
-              <Image
-                src={post.src}
-                alt={post.alt}
-                fill
-                sizes='(max-width: 768px) 42vw, 20vw'
-                quality={65}
-                className='object-cover'
-              />
-            </a>
-          ))}
         </div>
       </div>
     </section>

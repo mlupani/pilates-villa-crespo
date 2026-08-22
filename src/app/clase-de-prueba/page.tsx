@@ -17,9 +17,10 @@ const page = pages.trial
 const faqItems = business.faq.filter((item) => (
   item.question.includes('experiencia') ||
   item.question.includes('llevar') ||
-  item.question.includes('clase de prueba') ||
-  item.question.includes('ubicados') ||
-  item.question.includes('reservar')
+  item.question.includes('medias') ||
+  item.question.includes('dura') ||
+  item.question.includes('personas') ||
+  item.question.includes('disponibilidad')
 ))
 
 export const metadata = createPageMetadata({
@@ -43,17 +44,19 @@ export default function ClaseDePruebaPage () {
           eyebrow={page.hero.eyebrow}
           title={page.hero.title}
           description={page.hero.description}
-          primary={{ href: '#asistente', label: business.cta.trialMine }}
+          primary={{ href: '#asistente', label: business.cta.trialMine, intent: 'trial' }}
           secondary={{ href: routes.schedule, label: business.cta.schedule }}
           image={images.classes.mat}
+          chips={['Sin cargo', 'Sin experiencia previa', 'Hasta 5 alumnos']}
         />
         <TrialGuide />
         <Location trialHref='#asistente' />
         <Faq
           items={faqItems}
-          description='Si todavía te queda alguna duda, resolvela acá y después reservá. Te confirmamos el cupo antes de que vengas.'
+          description='Si todavía te queda alguna duda, resolvela acá o escribinos. La clase de prueba es sin cargo.'
           ctaHref='#asistente'
           ctaLabel={business.cta.trialMine}
+          ctaIntent='trial'
         />
         <RelatedPages
           links={[
@@ -63,10 +66,11 @@ export default function ClaseDePruebaPage () {
           ]}
         />
         <FinalCTA
-          title='Reservar mi clase de prueba'
-          description='Dejanos tu nombre, WhatsApp y una preferencia de horario. Te confirmamos disponibilidad.'
+          title='¿Querés probar una clase?'
+          description='Contanos un poco sobre vos. Te ayudamos a encontrar un horario y confirmamos el cupo. La prueba es sin cargo.'
           primaryHref='#asistente'
-          primaryLabel={business.cta.trialMine}
+          primaryLabel={business.cta.talk}
+          primaryIntent='start'
         />
       </main>
     </SiteChrome>

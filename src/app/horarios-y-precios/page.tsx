@@ -14,10 +14,10 @@ import { createPageMetadata } from '@/lib/seo'
 
 const page = pages.schedule
 const faqItems = business.faq.filter((item) => (
-  item.question.includes('horarios') ||
-  item.question.includes('reservar') ||
-  item.question.includes('clase de prueba') ||
-  item.question.includes('grupos')
+  item.question.includes('disponibilidad') ||
+  item.question.includes('dura') ||
+  item.question.includes('personas') ||
+  item.question.includes('recuperaciones')
 ))
 
 export const metadata = createPageMetadata({
@@ -41,21 +41,22 @@ export default function HorariosYPreciosPage () {
           eyebrow={page.hero.eyebrow}
           title={page.hero.title}
           description={page.hero.description}
-          primary={{ href: routes.trial, label: business.cta.trial }}
-          secondary={{ href: '#asistente', label: business.cta.availability }}
-          image={images.studio[3]}
+          primary={{ href: '#asistente', label: business.cta.trial, intent: 'trial' }}
+          secondary={{ href: '#asistente', label: business.cta.availability, intent: 'availability' }}
+          image={images.studio[2]}
+          chips={['Lunes a sábado', 'Hasta 5 alumnos', 'Clase de prueba sin cargo']}
         />
         <Offer
           eyebrow='Grilla y planes'
           title='Cupos, turnos y cómo continuar después de la prueba'
-          description='La grilla es de referencia y puede variar. Los planes están listos en la web; los valores se confirman al consultar, sin compromiso de abono hasta que te cierre el horario.'
+          description='La grilla es de referencia. La disponibilidad de cupos puede variar según el horario. Los valores están publicados; el asistente te ayuda a elegir.'
           showOpeningHours
-          primaryHref={routes.trial}
-          primaryLabel={business.cta.trial}
         />
         <Faq
           items={faqItems}
-          description='Si el horario te encaja, el siguiente paso es reservar una clase de prueba. Te confirmamos disponibilidad.'
+          description='Si el horario te encaja, el siguiente paso es una clase de prueba sin cargo.'
+          ctaIntent='availability'
+          ctaLabel={business.cta.availability}
         />
         <RelatedPages
           links={[
@@ -65,8 +66,10 @@ export default function HorariosYPreciosPage () {
           ]}
         />
         <FinalCTA
-          title='Consultá disponibilidad y reservá tu lugar'
-          description='Te confirmamos el cupo por WhatsApp. Si el horario no está, buscamos otra opción.'
+          title='Consultá disponibilidad y probá una clase'
+          description='Te confirmamos el cupo. Si el horario no está, buscamos otra opción. La clase de prueba es sin cargo.'
+          primaryIntent='availability'
+          primaryLabel={business.cta.availability}
         />
       </main>
     </SiteChrome>

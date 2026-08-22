@@ -1,9 +1,12 @@
 import Image from 'next/image'
 import { SmartLink } from '@/components/SmartLink'
+import { TrustChips } from '@/components/TrustChips'
+import type { AssistantIntent } from '@/lib/assistant'
 
 interface PageHeroLink {
   href: string
   label: string
+  intent?: AssistantIntent
 }
 
 interface PageHeroImage {
@@ -18,6 +21,7 @@ interface PageHeroProps {
   primary: PageHeroLink
   secondary?: PageHeroLink
   image?: PageHeroImage
+  chips?: string[]
 }
 
 export function PageHero ({
@@ -26,7 +30,8 @@ export function PageHero ({
   description,
   primary,
   secondary,
-  image
+  image,
+  chips
 }: PageHeroProps) {
   return (
     <section className='bg-cream px-5 pb-16 pt-10 md:px-8 md:pb-24 md:pt-16'>
@@ -41,13 +46,18 @@ export function PageHero ({
           <p className='mt-5 max-w-xl text-base leading-relaxed text-stone md:text-lg'>
             {description}
           </p>
+          {chips && chips.length > 0
+            ? (
+              <TrustChips items={chips} className='mt-6' />
+              )
+            : null}
           <div className='mt-8 flex flex-col gap-3 sm:flex-row'>
-            <SmartLink href={primary.href} className='btn-primary'>
+            <SmartLink href={primary.href} intent={primary.intent} className='btn-primary'>
               {primary.label}
             </SmartLink>
             {secondary
               ? (
-                <SmartLink href={secondary.href} className='btn-outline'>
+                <SmartLink href={secondary.href} intent={secondary.intent} className='btn-outline'>
                   {secondary.label}
                 </SmartLink>
                 )
@@ -57,7 +67,7 @@ export function PageHero ({
 
         {image
           ? (
-            <div className='hero-enter-delay img-zoom relative aspect-[4/5] overflow-hidden rounded-[1.8rem] lg:aspect-[5/6]'>
+            <div className='hero-enter-delay img-ken relative aspect-[4/5] overflow-hidden rounded-[1.8rem] lg:aspect-[5/6]'>
               <Image
                 src={image.src}
                 alt={image.alt}
@@ -67,6 +77,7 @@ export function PageHero ({
                 quality={75}
                 className='object-cover object-[center_28%]'
               />
+              <div className='absolute inset-0 bg-gradient-to-t from-ink/35 via-transparent to-ink/10' />
             </div>
             )
           : null}

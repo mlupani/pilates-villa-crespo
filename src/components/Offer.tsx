@@ -1,8 +1,6 @@
 import { business } from '@/content/business'
 import { SectionCta } from '@/components/SectionCta'
-import { getWhatsAppUrl } from '@/lib/local'
-import { routes } from '@/lib/routes'
-import { isPendingValue } from '@/lib/site'
+import { SmartLink } from '@/components/SmartLink'
 import { formatOpeningDays } from '@/lib/utils'
 
 interface OfferProps {
@@ -11,21 +9,15 @@ interface OfferProps {
   description?: string
   showOpeningHours?: boolean
   showSteps?: boolean
-  primaryHref?: string
-  primaryLabel?: string
 }
 
 export function Offer ({
   eyebrow = 'Horarios y planes',
   title = 'Encontrá tu momento para practicar',
-  description = 'Mirá la grilla, elegí el plan que mejor se adapte a tu ritmo y reservá una clase de prueba. Te confirmamos disponibilidad.',
+  description = 'Mirá la grilla y el plan que mejor se adapte a tu ritmo. La disponibilidad de cupos puede variar según el horario.',
   showOpeningHours = false,
-  showSteps = true,
-  primaryHref = routes.trial,
-  primaryLabel = business.cta.trial
+  showSteps = false
 }: OfferProps) {
-  const whatsappUrl = getWhatsAppUrl()
-
   return (
     <section id='horarios' className='bg-paper px-5 py-20 md:px-8 md:py-28'>
       <div className='mx-auto max-w-6xl'>
@@ -41,72 +33,107 @@ export function Offer ({
           </p>
         </div>
 
-        <div className='mt-12 grid gap-6 lg:grid-cols-2'>
-          <article className='reveal rounded-[1.6rem] bg-cream px-6 py-8 md:px-8'>
-            <h3 className='font-display text-3xl font-medium text-ink'>
-              Horarios de clase
-            </h3>
-            <p className='mt-2 text-sm leading-relaxed text-stone'>
-              Grilla de referencia. Los cupos se confirman al reservar.
-            </p>
-            <ul className='mt-8 divide-y divide-line border-y border-line'>
-              {business.schedule.map((slot) => (
-                <li key={slot.day} className='flex flex-col gap-1 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6'>
-                  <span className='font-display text-xl font-medium text-ink'>
-                    {slot.day}
-                  </span>
-                  <span className='text-sm text-stone'>
-                    {slot.hours}
-                  </span>
-                </li>
-              ))}
-            </ul>
-            {showOpeningHours && business.openingHoursSpecification.length > 0
-              ? (
-                <div className='mt-8'>
-                  <p className='text-xs font-semibold uppercase tracking-[0.16em] text-olive'>
-                    Horario de atención
-                  </p>
-                  <ul className='mt-3 space-y-2 text-sm text-stone'>
-                    {business.openingHoursSpecification.map((item) => (
-                      <li key={`${item.opens}-${item.closes}`}>
-                        {formatOpeningDays(item.dayOfWeek)} · {item.opens} a {item.closes}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                )
-              : null}
-          </article>
-
-          <article className='reveal rounded-[1.6rem] bg-cream px-6 py-8 md:px-8'>
-            <h3 className='font-display text-3xl font-medium text-ink'>
-              Planes
-            </h3>
-            <p className='mt-2 text-sm leading-relaxed text-stone'>
-              Empezá con una clase de prueba y después elegí la frecuencia que te sirva.
-            </p>
-            <ul className='mt-8 space-y-5'>
-              {business.prices.map((plan) => (
-                <li key={plan.name} className='border-t border-line pt-5'>
-                  <div className='flex flex-wrap items-baseline justify-between gap-3'>
-                    <p className='font-display text-xl font-medium text-ink'>
-                      {plan.name}
+        <div className='mt-12 overflow-hidden rounded-[1.8rem] border border-line bg-cream'>
+          <div className='grid lg:grid-cols-2'>
+            <article className='reveal px-6 py-8 md:px-10 md:py-10'>
+              <p className='text-[11px] font-semibold uppercase tracking-[0.2em] text-olive'>
+                Grilla
+              </p>
+              <h3 className='mt-2 font-display text-3xl font-medium text-ink'>
+                Horarios de clases
+              </h3>
+              <p className='mt-2 text-sm leading-relaxed text-stone'>
+                La disponibilidad de cupos puede variar según el horario.
+              </p>
+              <ul className='mt-8 divide-y divide-line border-y border-line'>
+                {business.schedule.map((slot) => (
+                  <li key={slot.day} className='flex flex-col gap-2 py-5'>
+                    <span className='font-display text-2xl font-medium text-ink'>
+                      {slot.day}
+                    </span>
+                    <span className='space-y-1 text-sm font-medium tracking-wide text-stone'>
+                      {slot.lines.map((line) => (
+                        <span key={line} className='block'>
+                          {line}
+                        </span>
+                      ))}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              {showOpeningHours && business.openingHoursSpecification.length > 0
+                ? (
+                  <div className='mt-8'>
+                    <p className='text-xs font-semibold uppercase tracking-[0.16em] text-olive'>
+                      Horario de atención
                     </p>
-                    <p className='text-sm font-medium text-olive'>
-                      {isPendingValue(plan.amount) ? 'Consultar valor' : plan.amount}
-                    </p>
+                    <ul className='mt-3 space-y-2 text-sm text-stone'>
+                      {business.openingHoursSpecification.map((item) => (
+                        <li key={`${item.opens}-${item.closes}`}>
+                          {formatOpeningDays(item.dayOfWeek)} · {item.opens} a {item.closes}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <p className='mt-1 text-sm leading-relaxed text-stone'>
-                    {plan.detail}
-                  </p>
-                </li>
-              ))}
-            </ul>
-            <p className='mt-6 text-xs font-medium uppercase tracking-[0.16em] text-olive'>
-              Los valores se confirman al consultar disponibilidad
-            </p>
-          </article>
+                  )
+                : null}
+              <SmartLink href='#asistente' intent='availability' className='btn-primary mt-8'>
+                {business.cta.availability}
+              </SmartLink>
+            </article>
+
+            <article className='reveal border-t border-line bg-paper/60 px-6 py-8 md:px-10 md:py-10 lg:border-l lg:border-t-0'>
+              <p className='text-[11px] font-semibold uppercase tracking-[0.2em] text-olive'>
+                Planes
+              </p>
+              <h3 className='mt-2 font-display text-3xl font-medium text-ink'>
+                Elegí la frecuencia que mejor se adapte a vos
+              </h3>
+              <p className='mt-2 text-sm leading-relaxed text-stone'>
+                Empezá con una clase de prueba sin cargo y después elegí el plan.
+              </p>
+              <ul className='mt-8 space-y-4'>
+                {business.prices.map((plan) => (
+                  <li
+                    key={plan.name}
+                    className={plan.featured
+                      ? 'rounded-[1.2rem] border border-clay/30 bg-cream px-5 py-5'
+                      : 'border-t border-line pt-5 first:border-t-0 first:pt-0'}
+                  >
+                    <div className='flex flex-wrap items-baseline justify-between gap-3'>
+                      <p className='font-display text-xl font-medium text-ink'>
+                        {plan.name}
+                      </p>
+                      <p className='font-display text-2xl font-medium text-ink'>
+                        {plan.amount}
+                      </p>
+                    </div>
+                    {plan.featured
+                      ? (
+                        <p className='mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-clay'>
+                          La más elegida
+                        </p>
+                        )
+                      : null}
+                    <p className='mt-1 text-sm leading-relaxed text-stone'>
+                      {plan.detail}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+              <div className='mt-8 border-t border-line pt-6'>
+                <p className='font-display text-xl font-medium text-ink'>
+                  ¿No sabés qué plan elegir?
+                </p>
+                <p className='mt-2 text-sm leading-relaxed text-stone'>
+                  Contanos qué días y horarios tenés disponibles y te ayudamos a encontrar una opción que se adapte a vos.
+                </p>
+                <SmartLink href='#asistente' intent='plan' className='btn-outline mt-5'>
+                  {business.cta.choosePlan}
+                </SmartLink>
+              </div>
+            </article>
+          </div>
         </div>
 
         {showSteps
@@ -129,11 +156,8 @@ export function Offer ({
 
         <SectionCta
           title='¿Qué horario te queda mejor?'
-          description='Reservá una clase de prueba o consultá disponibilidad. Te confirmamos el cupo por WhatsApp.'
-          primary={{ href: primaryHref, label: primaryLabel }}
-          secondary={whatsappUrl
-            ? { href: whatsappUrl, label: business.cta.availability }
-            : undefined}
+          description='Consultá disponibilidad. El asistente te pregunta el día y el horario; una persona del estudio confirma el cupo.'
+          primary={{ href: '#asistente', label: business.cta.availability, intent: 'availability' }}
         />
       </div>
     </section>

@@ -13,7 +13,7 @@ const blocks = [
 ]
 
 export function ReformerGuide () {
-  const photos = [images.classes.reformer, images.studio[0], images.studio[3]]
+  const photos = [images.classes.reformer, images.studio[0], images.studio[2]]
 
   return (
     <section className='bg-paper px-5 py-20 md:px-8 md:py-28'>
@@ -32,8 +32,8 @@ export function ReformerGuide () {
             </article>
           ))}
           <div className='flex flex-col gap-3 sm:flex-row'>
-            <SmartLink href={routes.trial} className='btn-primary'>
-              Probar una clase de Reformer
+            <SmartLink href='#asistente' intent='trial' className='btn-primary'>
+              {business.cta.trial}
             </SmartLink>
             <SmartLink href={routes.schedule} className='btn-outline'>
               {business.cta.schedule}

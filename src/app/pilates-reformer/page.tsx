@@ -34,9 +34,10 @@ export default function PilatesReformerPage () {
           eyebrow={page.hero.eyebrow}
           title={page.hero.title}
           description={page.hero.description}
-          primary={{ href: routes.trial, label: business.cta.trialReformer }}
+          primary={{ href: '#asistente', label: business.cta.trial, intent: 'trial' }}
           secondary={{ href: routes.schedule, label: business.cta.schedule }}
           image={images.classes.reformer}
+          chips={['Hasta 5 alumnos', '50 minutos', 'Clase de prueba sin cargo']}
         />
         <ReformerGuide />
         <RelatedPages
@@ -49,8 +50,7 @@ export default function PilatesReformerPage () {
         />
         <FinalCTA
           title='Probar una clase de Reformer'
-          description='Te mostramos la máquina, el ritmo de la clase y si el horario te queda cómodo. Grupos reducidos, en Villa Crespo.'
-          primaryLabel={business.cta.trialReformer}
+          description='Te mostramos la máquina, el ritmo de la clase y si el horario te queda cómodo. Grupos de hasta 5 alumnos. La prueba es sin cargo.'
         />
       </main>
     </SiteChrome>

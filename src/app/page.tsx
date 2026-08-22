@@ -1,12 +1,16 @@
-import { About } from '@/components/About'
+import { AtmosphereMarquee } from '@/components/AtmosphereMarquee'
 import { Benefits } from '@/components/Benefits'
 import { Classes } from '@/components/Classes'
+import { Community } from '@/components/Community'
+import { Convert } from '@/components/Convert'
 import { Faq } from '@/components/FAQ'
 import { FinalCTA } from '@/components/FinalCTA'
+import { FirstTime } from '@/components/FirstTime'
 import { Hero } from '@/components/Hero'
 import { JsonLd } from '@/components/JsonLd'
 import { Location } from '@/components/Location'
 import { Offer } from '@/components/Offer'
+import { ReformerIntro } from '@/components/ReformerIntro'
 import { SiteChrome } from '@/components/SiteChrome'
 import { Studio } from '@/components/Studio'
 import { Testimonials } from '@/components/Testimonials'
@@ -28,14 +32,18 @@ export default function Home () {
       <main>
         <Hero />
         <Benefits />
+        <AtmosphereMarquee />
+        <FirstTime />
         <Classes />
+        <ReformerIntro />
         <Studio />
-        <Location />
-        <About />
+        <Community />
+        <Location trialHref='#asistente' />
         <Testimonials />
         <Offer />
+        <Convert />
         <Faq />
-        <FinalCTA primaryHref='#asistente' />
+        <FinalCTA />
       </main>
     </SiteChrome>
   )

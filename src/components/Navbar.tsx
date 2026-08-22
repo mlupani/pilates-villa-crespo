@@ -4,6 +4,7 @@ import { useState, useSyncExternalStore } from 'react'
 import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import { Logo } from '@/components/Logo'
+import { Announcement } from '@/components/Announcement'
 import { SmartLink } from '@/components/SmartLink'
 import { business } from '@/content/business'
 import { routes } from '@/lib/routes'
@@ -50,6 +51,7 @@ export function Navbar ({ variant = 'page' }: NavbarProps) {
           : 'pointer-events-none -translate-y-full border-transparent opacity-0 md:pointer-events-auto md:translate-y-0 md:border-line md:opacity-100'
       )}
     >
+      <Announcement />
       <nav className='mx-auto flex max-w-6xl items-center justify-between px-5 py-2.5 md:px-8'>
         <SmartLink href={routes.home} className='block h-16 w-16 shrink-0 md:h-[4.75rem] md:w-[4.75rem]'>
           <span className='sr-only'>Pilates Villa Crespo</span>
@@ -73,7 +75,7 @@ export function Navbar ({ variant = 'page' }: NavbarProps) {
         </ul>
 
         <div className='flex items-center gap-3'>
-          <SmartLink href={routes.trial} className='btn-primary hidden px-5 py-2.5 text-[13px] md:inline-flex'>
+          <SmartLink href='#asistente' intent='trial' className='btn-primary hidden px-5 py-2.5 text-[13px] md:inline-flex'>
             {business.cta.trialShort}
           </SmartLink>
           <button
@@ -109,7 +111,8 @@ export function Navbar ({ variant = 'page' }: NavbarProps) {
           ))}
           <li>
             <SmartLink
-              href={routes.trial}
+              href='#asistente'
+              intent='trial'
               className='btn-primary mt-2 w-full'
               onClick={() => setOpen(false)}
             >

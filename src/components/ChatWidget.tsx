@@ -33,6 +33,8 @@ function ChatWidgetPanel () {
   const openSource = useRef<'fab' | 'hash' | 'link'>('fab')
   const hasInteracted = useRef(false)
 
+  const pendingIntent = useRef<string | null>(null)
+
   const messages = useAssistantStore((state) => state.messages)
   const addUserMessage = useAssistantStore((state) => state.addUserMessage)
   const addAssistantMessage = useAssistantStore((state) => state.addAssistantMessage)
@@ -71,8 +73,9 @@ function ChatWidgetPanel () {
   useEffect(() => {
     if (!hydrated) return
 
-    function openAssistant (source: 'hash' | 'link') {
+    function openAssistant (source: 'fab' | 'hash' | 'link', intent?: string | null) {
       openSource.current = source
+      if (intent?.trim()) pendingIntent.current = intent.trim()
       setOpen(true)
     }
 
@@ -84,7 +87,7 @@ function ChatWidgetPanel () {
       const target = (event.target as HTMLElement).closest('a[href="#asistente"]')
       if (!target) return
       event.preventDefault()
-      openAssistant('link')
+      openAssistant('link', target.getAttribute('data-intent'))
     }
 
     onHash()
@@ -123,7 +126,7 @@ function ChatWidgetPanel () {
 
   function sendText (text: string) {
     const value = text.trim()
-    if (!value || pending) return
+    if (!value || sendMessage.isPending) return
 
     addUserMessage(value)
     setInput('')
@@ -144,6 +147,26 @@ function ChatWidgetPanel () {
       conversationId: useAssistantStore.getState().conversationId ?? undefined
     })
   }
+
+  const sendTextRef = useRef(sendText)
+
+  useEffect(() => {
+    sendTextRef.current = sendText
+  })
+
+  useEffect(() => {
+    if (!open || !hydrated) return
+    const intent = pendingIntent.current
+    if (!intent) return
+    pendingIntent.current = null
+
+    const lastUser = [...useAssistantStore.getState().messages]
+      .reverse()
+      .find((message) => message.role === 'user')
+    if (lastUser?.content === intent) return
+
+    sendTextRef.current(intent)
+  }, [open, hydrated])
 
   return (
     <>
@@ -254,7 +277,7 @@ function ChatWidgetPanel () {
         {!open
           ? (
             <p className='rounded-full bg-paper px-3 py-2 text-xs font-medium text-ink shadow-[0_8px_24px_rgba(31,27,24,0.1)]'>
-              ¿Reservamos tu clase de prueba?
+              ¿Probamos una clase sin cargo?
             </p>
             )
           : null}

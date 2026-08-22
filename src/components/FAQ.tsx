@@ -4,21 +4,23 @@ import { useState } from 'react'
 import { Plus } from 'lucide-react'
 import { SmartLink } from '@/components/SmartLink'
 import { business, type FaqItem } from '@/content/business'
-import { routes } from '@/lib/routes'
 import { cn } from '@/lib/utils'
+import type { AssistantIntent } from '@/lib/assistant'
 
 interface FaqProps {
   items?: FaqItem[]
   description?: string
   ctaHref?: string
   ctaLabel?: string
+  ctaIntent?: AssistantIntent
 }
 
 export function Faq ({
   items = business.faq,
-  description = 'Si es tu primera vez, no hace falta experiencia. Reservá una clase de prueba y te orientamos en todo.',
-  ctaHref = routes.trial,
-  ctaLabel = business.cta.trial
+  description = 'Si es tu primera vez, no hace falta experiencia. La clase de prueba es sin cargo y te orientamos en todo.',
+  ctaHref = '#asistente',
+  ctaLabel = business.cta.trial,
+  ctaIntent = 'trial'
 }: FaqProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
@@ -35,9 +37,14 @@ export function Faq ({
           <p className='mt-5 max-w-sm text-sm leading-relaxed text-stone'>
             {description}
           </p>
-          <SmartLink href={ctaHref} className='btn-primary mt-8 hidden lg:inline-flex'>
-            {ctaLabel}
-          </SmartLink>
+          <div className='mt-8 hidden flex-col items-start gap-3 lg:flex'>
+            <SmartLink href={ctaHref} intent={ctaIntent} className='btn-primary'>
+              {ctaLabel}
+            </SmartLink>
+            <SmartLink href='#asistente' className='text-sm font-semibold text-clay hover:text-clay-dark'>
+              {business.cta.consult}
+            </SmartLink>
+          </div>
         </div>
 
         <div className='reveal divide-y divide-line border-y border-line'>
@@ -76,9 +83,12 @@ export function Faq ({
             )
           })}
         </div>
-        <div className='reveal mt-8 lg:hidden'>
-          <SmartLink href={ctaHref} className='btn-primary w-full'>
+        <div className='reveal mt-8 flex flex-col gap-3 lg:hidden'>
+          <SmartLink href={ctaHref} intent={ctaIntent} className='btn-primary w-full'>
             {ctaLabel}
+          </SmartLink>
+          <SmartLink href='#asistente' className='text-center text-sm font-semibold text-clay'>
+            {business.cta.consult}
           </SmartLink>
         </div>
       </div>

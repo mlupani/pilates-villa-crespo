@@ -8,7 +8,7 @@ export function WhatsAppButton () {
     <a
       href={href}
       className='inline-flex size-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_12px_30px_rgba(37,211,102,0.35)] transition-transform duration-300 [@media(hover:hover)]:hover:-translate-y-0.5'
-      aria-label='Reservar una clase por WhatsApp'
+      aria-label='Consultar una clase por WhatsApp'
     >
       <svg
         viewBox='0 0 24 24'

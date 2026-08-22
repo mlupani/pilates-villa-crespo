@@ -1,4 +1,3 @@
-import { About } from '@/components/About'
 import { Benefits } from '@/components/Benefits'
 import { ClassLinks } from '@/components/ClassGuide'
 import { Editorial } from '@/components/Editorial'
@@ -38,9 +37,10 @@ export default function PilatesEnVillaCrespoPage () {
           eyebrow={page.hero.eyebrow}
           title={page.hero.title}
           description={page.hero.description}
-          primary={{ href: routes.trial, label: business.cta.trial }}
+          primary={{ href: '#asistente', label: business.cta.trial, intent: 'trial' }}
           secondary={{ href: routes.schedule, label: business.cta.schedule }}
           image={images.studio[0]}
+          chips={['Batalla del Pari 484', 'Hasta 5 alumnos', 'Clase de prueba sin cargo']}
         />
         <Editorial
           eyebrow='El barrio'
@@ -54,7 +54,6 @@ export default function PilatesEnVillaCrespoPage () {
         <Location />
         <Benefits />
         <ClassLinks />
-        <About />
         <Testimonials />
         <RelatedPages
           links={[
@@ -64,8 +63,8 @@ export default function PilatesEnVillaCrespoPage () {
           ]}
         />
         <FinalCTA
-          title='Reservá una clase de prueba en Villa Crespo'
-          description={`Te confirmamos el cupo y cómo llegar a ${business.local.streetAddress}. Sin experiencia previa.`}
+          title='¿Listo para probar Pilates en Villa Crespo?'
+          description={`Tu clase de prueba es sin cargo. Te confirmamos el cupo y cómo llegar a ${business.local.streetAddress}.`}
         />
       </main>
     </SiteChrome>

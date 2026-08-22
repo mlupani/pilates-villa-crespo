@@ -34,16 +34,17 @@ export default function ClasesDePilatesPage () {
           eyebrow={page.hero.eyebrow}
           title={page.hero.title}
           description={page.hero.description}
-          primary={{ href: routes.trial, label: 'Probar una clase' }}
+          primary={{ href: '#asistente', label: business.cta.trial, intent: 'trial' }}
           secondary={{ href: routes.reformer, label: 'Conocer Reformer' }}
           image={images.classes.personal}
+          chips={['Reformer', 'Mat', 'Personalizado']}
         />
         <Editorial
           eyebrow='Cómo elegir'
           title='No hay una clase “mejor”: hay una que se adapta a vos'
           paragraphs={[
-            'En el estudio trabajamos tres modalidades: Pilates Reformer, Pilates Mat y Pilates Personalizado. Las tres apuntan a fuerza, movilidad y control, con grupos reducidos o seguimiento uno a uno.',
-            'Si es tu primera vez, no hace falta decidirlo todo ahora. En una clase de prueba vemos juntas qué te queda más cómodo. Si ya sabés que te interesa la máquina, podés ir directo a Reformer.'
+            'En el estudio trabajamos tres modalidades: Pilates Reformer, Pilates Mat y Pilates Personalizado. Las tres apuntan a fuerza, movilidad y control, con grupos de hasta 5 alumnos o seguimiento uno a uno.',
+            'Si es tu primera vez, no hace falta decidirlo todo ahora. En una clase de prueba sin cargo vemos juntas qué te queda más cómodo. Si ya sabés que te interesa la máquina, podés ir directo a Reformer.'
           ]}
           tone='cream'
         />
@@ -57,8 +58,7 @@ export default function ClasesDePilatesPage () {
         />
         <FinalCTA
           title='Probá una clase y después elegís con más claridad'
-          description='Sin experiencia previa. Te confirmamos horario y te recibimos en el estudio.'
-          primaryLabel={business.cta.trial}
+          description='Sin experiencia previa. Tu clase de prueba es sin cargo.'
         />
       </main>
     </SiteChrome>

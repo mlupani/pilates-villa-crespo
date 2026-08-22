@@ -47,7 +47,7 @@ export const pages = {
     hero: {
       eyebrow: 'Información práctica',
       title: 'Horarios, planes y cómo reservar tu lugar',
-      description: 'Mirá la grilla de referencia, elegí un plan según tu ritmo y escribinos para confirmar cupo. Los valores se confirman al consultar disponibilidad.'
+      description: 'Mirá la grilla de referencia, los planes publicados y consultá disponibilidad. Los cupos se confirman al escribirnos.'
     }
   },
   trial: {
@@ -59,7 +59,7 @@ export const pages = {
     hero: {
       eyebrow: 'Primera visita',
       title: 'Tu clase de prueba, con calma y sin experiencia previa',
-      description: 'Venís, conocés el estudio, practicás en un grupo reducido y ves si el horario y la dinámica te quedan cómodos. Te confirmamos el cupo antes de que vengas.'
+      description: 'Venís, conocés el estudio, practicás en un grupo de hasta 5 personas y ves si el horario te queda cómodo. La clase de prueba es sin cargo; te confirmamos el cupo antes de que vengas.'
     }
   }
 } as const
@@ -115,7 +115,7 @@ export const reformerGuide = {
 
 export const trialGuide = {
   how: [
-    'Elegís un día y un horario de la grilla de referencia. Nos dejás tu nombre y WhatsApp. Te confirmamos si hay cupo y te recordamos la dirección.',
+    'Escribís por el asistente: te preguntamos objetivos, experiencia y qué días te quedan cómodos. Una persona del estudio confirma si hay cupo.',
     'El día de la clase llegás un poco antes, te mostramos el espacio y practicás con el resto del grupo, con seguimiento cercano.'
   ],
   expect: [

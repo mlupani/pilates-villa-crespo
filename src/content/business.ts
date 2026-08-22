@@ -16,7 +16,7 @@ export interface Benefit {
   number: string
   title: string
   description: string
-  icon: 'users' | 'heart' | 'sun'
+  icon: 'users' | 'heart' | 'sun' | 'sparkles'
 }
 
 export interface ClassItem {
@@ -65,11 +65,19 @@ export interface PricePlan {
   name: string
   detail: string
   amount: string
+  featured?: boolean
+}
+
+export interface Announcement {
+  enabled: boolean
+  text: string
+  href?: string
+  intent?: 'trial' | 'availability' | 'plan' | 'start' | 'location'
 }
 
 export interface ScheduleSlot {
   day: string
-  hours: string
+  lines: string[]
 }
 
 export interface OpeningHoursSpecification {
@@ -116,7 +124,7 @@ const profiles = {
 export const business = {
   name: 'Pilates Villa Crespo',
   shortName: 'Pilates',
-  tagline: 'Un espacio para moverte mejor, sentirte mejor.',
+  tagline: 'Clases en grupos reducidos, adaptadas a tu nivel y objetivos.',
   local,
   profiles,
   neighborhood: local.neighborhood,
@@ -141,23 +149,35 @@ export const business = {
   postalCode: local.postalCode,
   addressNote: 'A pasos de Av. Warnes y Av. Honorio Pueyrredón, en Villa Crespo. Llegá en Subte B, colectivo o auto.',
   mapsUrl: local.mapsUrl,
-  audience: 'Las clases son para todos los niveles: si nunca hiciste Pilates, si estás volviendo a moverte o si ya practicás y buscás un espacio más cuidado.',
-  instructor: {
-    name: 'Valentina',
-    role: 'Profesora de Pilates',
-    highlight: 'Experiencia + formación',
-    bio: 'Mi objetivo es acompañarte a incorporar el movimiento como parte de tu bienestar, con clases cuidadas, cercanas y adaptadas a cada persona.'
+  audience: 'Las clases se adaptan a tu experiencia, características y objetivos. Podés empezar aunque nunca hayas hecho Pilates.',
+  announcement: {
+    enabled: true,
+    text: 'Clase de prueba sin cargo · Hasta 5 alumnos por clase',
+    href: '#asistente',
+    intent: 'trial'
+  } satisfies Announcement,
+  atmosphere: ['Reformer', 'Hasta 5 alumnos', 'Clase de prueba sin cargo', 'Villa Crespo'],
+  community: {
+    eyebrow: 'La comunidad',
+    title: 'Hay lugar para todos los ritmos',
+    description: 'La puntual, la que llega justo, la que pregunta todo. El estudio se construye entre quienes vienen a moverse, no contra un ideal de alumna perfecta.',
+    cta: 'Seguinos en Instagram'
   },
   cta: {
-    trial: 'Reservar una clase de prueba',
-    trialMine: 'Reservar mi clase de prueba',
-    trialReformer: 'Probar una clase de Reformer',
-    trialShort: 'Reservar una clase',
+    trial: 'Quiero probar una clase',
+    trialMine: 'Quiero probar una clase',
+    trialReformer: 'Quiero probar una clase',
+    trialShort: 'Probar una clase',
     availability: 'Consultar disponibilidad',
     schedule: 'Ver horarios',
+    classes: 'Conocé cómo son las clases',
     directions: 'Cómo llegar',
-    whatsapp: 'Reservar por WhatsApp',
-    knowMore: 'Conocer más'
+    howToArrive: 'Consultar cómo llegar',
+    whatsapp: 'Escribir por WhatsApp',
+    knowMore: 'Conocer más',
+    talk: 'Hablar con nosotros',
+    choosePlan: 'Ayudame a elegir',
+    consult: 'Tengo una consulta'
   },
   nav: [
     { href: '/clases-de-pilates', label: 'Clases' },
@@ -168,42 +188,48 @@ export const business = {
     {
       number: '01',
       title: 'Grupos reducidos',
-      description: 'Más atención y seguimiento durante cada clase.',
+      description: 'Hasta 5 alumnos por clase, para una experiencia más personalizada.',
       icon: 'users'
     },
     {
       number: '02',
-      title: 'Atención personalizada',
-      description: 'Ejercicios adaptados a tus necesidades y objetivos.',
+      title: 'Adaptado a vos',
+      description: 'Las clases se adaptan a la experiencia, características y objetivos de cada persona.',
       icon: 'heart'
     },
     {
       number: '03',
-      title: 'Un espacio cálido',
-      description: 'Un ambiente tranquilo donde puedas disfrutar del movimiento.',
+      title: 'No necesitás experiencia',
+      description: 'Podés comenzar aunque nunca hayas hecho Pilates.',
       icon: 'sun'
+    },
+    {
+      number: '04',
+      title: 'Clase de prueba sin cargo',
+      description: 'Conocé el estudio y nuestra forma de trabajar antes de empezar.',
+      icon: 'sparkles'
     }
   ] satisfies Benefit[],
   classes: [
     {
       id: 'reformer',
       name: 'Pilates Reformer',
-      description: 'Fortalecé, mejorá tu postura y trabajá todo el cuerpo con máquinas Reformer, en grupos reducidos.',
-      forWhom: 'Todos los niveles',
+      description: 'Trabajo de fuerza, movilidad, control y equilibrio en máquina, con un enfoque clásico y contemporáneo. Clases de 50 minutos, en grupos de hasta 5 alumnos o en modalidad individual.',
+      forWhom: 'Hasta 5 alumnos · 50 minutos',
       imageKey: 'reformer'
     },
     {
       id: 'mat',
       name: 'Pilates Mat',
-      description: 'Trabajo integral de fuerza, movilidad y control corporal. Una base clara para empezar o complementar Reformer.',
-      forWhom: 'Ideal para comenzar',
+      description: 'Trabajo en colchoneta de fuerza, movilidad y control. Una base clara para empezar o complementar Reformer, adaptada a tu nivel.',
+      forWhom: 'Grupal · Todos los niveles',
       imageKey: 'mat'
     },
     {
       id: 'personal',
       name: 'Pilates Personalizado',
-      description: 'Una sesión 100% adaptada a tus objetivos, ritmos y necesidades, con seguimiento cercano.',
-      forWhom: 'Objetivos específicos',
+      description: 'Una sesión individual, 100% adaptada a tus objetivos, ritmos y necesidades, con seguimiento cercano.',
+      forWhom: 'Modalidad individual',
       imageKey: 'personal'
     }
   ] satisfies ClassItem[],
@@ -217,7 +243,7 @@ export const business = {
       rating: 5,
       source: 'web',
       verified: false,
-      published: true
+      published: false
     },
     {
       id: 'lucia',
@@ -226,7 +252,7 @@ export const business = {
       rating: 5,
       source: 'web',
       verified: false,
-      published: true
+      published: false
     },
     {
       id: 'carolina',
@@ -235,51 +261,57 @@ export const business = {
       rating: 5,
       source: 'web',
       verified: false,
-      published: true
+      published: false
     }
   ] satisfies Testimonial[],
   faq: [
     {
       question: '¿Necesito experiencia previa?',
-      answer: 'No. Las clases están pensadas para todos los niveles. Si es tu primera vez, te orientamos para que empieces con calma y confianza.'
+      answer: 'No. Podés comenzar aunque nunca hayas hecho Pilates. Las clases se adaptan a las características y objetivos de cada persona.'
     },
     {
-      question: '¿Qué tengo que llevar a la clase?',
-      answer: 'Ropa cómoda, medias antideslizantes si las preferís, y una botellita de agua. El resto lo tenemos en el estudio.'
+      question: '¿Cuánto dura una clase?',
+      answer: 'Las clases duran 50 minutos.'
     },
     {
-      question: '¿Cómo son los grupos?',
-      answer: 'Trabajamos con grupos reducidos para poder acompañarte de cerca durante toda la clase y cuidar cada detalle de tu práctica.'
+      question: '¿Cuántas personas hay por clase?',
+      answer: 'Trabajamos con grupos de hasta 5 alumnos, para poder acompañarte de cerca durante toda la clase.'
     },
     {
-      question: '¿Puedo hacer una clase de prueba?',
-      answer: 'Sí. Podés reservar una clase de prueba para conocer el estudio, la dinámica y ver si el horario te queda cómodo. Te confirmamos disponibilidad por WhatsApp o desde el asistente de esta web.'
+      question: '¿Qué tengo que llevar?',
+      answer: 'Ropa cómoda y una botellita de agua. El resto lo tenemos en el estudio.'
     },
     {
-      question: '¿Dónde están ubicados?',
-      answer: 'Estamos en Batalla del Pari 484, Villa Crespo, Buenos Aires (C1414D). A pasos de Av. Warnes y Av. Honorio Pueyrredón. En la web tenés el mapa y cómo llegar.'
+      question: '¿Tengo que usar medias antideslizantes?',
+      answer: 'No es obligatorio. Si preferís usarlas, traelas. Si no, te recibimos igual.'
     },
     {
-      question: '¿Cómo puedo reservar?',
-      answer: 'Elegí un horario, dejá tu nombre y WhatsApp desde Reservar una clase de prueba, o escribinos directo. Te confirmamos disponibilidad a la brevedad.'
+      question: '¿Cómo funcionan las recuperaciones?',
+      answer: 'Las recuperaciones se coordinan según disponibilidad. Escribinos por el asistente y te explicamos cómo funciona en tu caso.'
     },
     {
-      question: '¿Qué horarios tienen?',
-      answer: 'Tenemos horarios de lunes a sábado, por la mañana y por la tarde. La grilla puede variar, así que lo mejor es consultar disponibilidad para encontrar el que mejor te quede.'
+      question: '¿Cómo consulto disponibilidad?',
+      answer: 'Mirá la grilla de horarios en la web y consultanos por el asistente. La disponibilidad de cupos puede variar según el horario; te confirmamos el lugar antes de que vengas.'
     }
   ] satisfies FaqItem[],
   schedule: [
-    { day: 'Lunes a viernes', hours: '8:00 · 9:30 · 18:00 · 19:30' },
-    { day: 'Sábados', hours: '9:00 · 10:30' }
+    {
+      day: 'Lunes a viernes',
+      lines: ['08:00 · 09:00 · 10:00 · 11:00', '17:00 · 18:00 · 19:00 · 20:00']
+    },
+    {
+      day: 'Sábados',
+      lines: ['09:00 a 13:00']
+    }
   ] satisfies ScheduleSlot[],
   prices: [
-    { name: '4 clases', detail: 'Ideal para empezar con calma.', amount: 'TODO_PRICE' },
-    { name: '8 clases', detail: 'La opción más elegida para una práctica regular.', amount: 'TODO_PRICE' },
-    { name: 'Clase personalizada', detail: 'Una sesión pensada 100% para vos.', amount: 'TODO_PRICE' }
+    { name: '4 clases por mes', detail: 'Ideal para empezar con calma.', amount: '$58.500' },
+    { name: '8 clases por mes', detail: 'La opción más elegida para una práctica regular.', amount: '$69.500', featured: true },
+    { name: '12 clases por mes', detail: 'Si ya tenés el hábito y querés más frecuencia.', amount: '$85.000' }
   ] satisfies PricePlan[],
   trialClass: {
-    duration: 'TODO_CLASS_DURATION',
-    bring: 'Ropa cómoda, medias antideslizantes si las preferís, y una botellita de agua. El resto lo tenemos en el estudio.'
+    duration: '50 minutos',
+    bring: 'Ropa cómoda y una botellita de agua. Si preferís medias antideslizantes, traelas. El resto lo tenemos en el estudio.'
   },
   locationDetails: [
     {
@@ -298,23 +330,23 @@ export const business = {
   bookingSteps: [
     {
       number: '01',
-      title: 'Elegí un horario',
-      description: 'Mirá la grilla y pensá qué día te queda más cómodo.'
+      title: 'Contanos qué buscás',
+      description: 'Abrí el asistente. Te preguntamos objetivos, experiencia y si hay algo que debamos tener en cuenta.'
     },
     {
       number: '02',
-      title: 'Reservá tu clase de prueba',
-      description: 'Dejanos tu nombre y WhatsApp. Sin experiencia previa.'
+      title: 'Elegí días y horarios',
+      description: 'Indicá qué te queda cómodo. La disponibilidad de cupos puede variar según el horario.'
     },
     {
       number: '03',
       title: 'Te confirmamos el lugar',
-      description: 'Te escribimos para confirmar disponibilidad. El estudio está en Batalla del Pari 484.'
+      description: 'Una persona del estudio confirma el cupo de tu clase de prueba, sin cargo, en Batalla del Pari 484.'
     }
   ] satisfies BookingStep[],
   seo: {
-    title: 'Pilates Villa Crespo | Clases de Reformer en CABA',
-    description: 'Estudio de Pilates en Villa Crespo, Buenos Aires. Clases de Reformer y Mat en grupos reducidos, para todos los niveles. Reservá una clase de prueba.',
+    title: 'Pilates Villa Crespo | Reformer en grupos reducidos',
+    description: 'Estudio de Pilates Reformer en Villa Crespo. Grupos de hasta 5 alumnos, clases de 50 minutos y clase de prueba sin cargo. Sin experiencia previa.',
     keywords: [
       'Pilates Villa Crespo',
       'Pilates Reformer',
