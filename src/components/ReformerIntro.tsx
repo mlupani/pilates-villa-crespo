@@ -7,8 +7,8 @@ export function ReformerIntro () {
       <div className='mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16'>
         <div className='reveal img-ken relative aspect-[4/5] overflow-hidden rounded-[1.8rem] lg:aspect-[5/6]'>
           <Image
-            src={images.classes.personal.src}
-            alt={images.classes.personal.alt}
+            src={images.reformerIntro.src}
+            alt={images.reformerIntro.alt}
             fill
             sizes='(max-width: 1024px) 92vw, 42vw'
             quality={70}

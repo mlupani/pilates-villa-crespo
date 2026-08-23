@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import { getImageProps } from 'next/image'
 import { SmartLink } from '@/components/SmartLink'
 import { TrustChips } from '@/components/TrustChips'
 import { business } from '@/content/business'
@@ -8,37 +8,41 @@ const chips = ['Hasta 5 alumnos por clase', 'No necesitás experiencia previa', 
 
 export function Hero () {
   const announcement = business.announcement
+  const shared = {
+    alt: images.hero.alt,
+    sizes: '100vw',
+    quality: 75
+  }
+  const { props: desktop } = getImageProps({
+    ...shared,
+    src: images.hero.src,
+    width: images.hero.width,
+    height: images.hero.height
+  })
+  const { props: mobile } = getImageProps({
+    ...shared,
+    src: images.hero.mobile,
+    width: images.hero.mobileWidth,
+    height: images.hero.mobileHeight
+  })
 
   return (
     <section id='inicio' className='relative h-svh min-h-svh overflow-hidden md:h-auto'>
-      <div className='absolute inset-0'>
-        <Image
-          src={images.hero.src}
+      <picture>
+        <source media='(min-width: 768px)' srcSet={desktop.srcSet} sizes={desktop.sizes} />
+        <img
+          {...mobile}
           alt={images.hero.alt}
-          fill
-          priority
           fetchPriority='high'
-          sizes='100vw'
-          quality={75}
-          className='hero-image object-cover object-[center_48%]'
+          decoding='async'
+          className='hero-image absolute inset-0 size-full object-cover object-[center_42%] md:object-[78%_center]'
         />
-      </div>
+      </picture>
 
-      <video
-        aria-hidden='true'
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload='metadata'
-        poster={images.hero.poster}
-        className='absolute inset-0 size-full object-cover md:hidden'
-      >
-        <source src={images.hero.video} type='video/mp4' />
-      </video>
-
-      <div className='absolute inset-0 bg-gradient-to-b from-ink/50 via-ink/42 to-ink/78' />
-      <div className='absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(31,27,24,0.12),rgba(31,27,24,0.5))]' />
+      <div className='absolute inset-0 bg-gradient-to-b from-ink/50 via-ink/42 to-ink/78 md:hidden' />
+      <div className='absolute inset-0 hidden bg-gradient-to-r from-ink/78 via-ink/45 to-ink/20 md:block' />
+      <div className='absolute inset-0 hidden bg-gradient-to-t from-ink/55 via-transparent to-ink/20 md:block' />
+      <div className='absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(31,27,24,0.12),rgba(31,27,24,0.5))] md:bg-none' />
 
       {announcement.enabled
         ? (

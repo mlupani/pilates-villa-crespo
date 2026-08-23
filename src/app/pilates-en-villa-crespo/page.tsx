@@ -39,7 +39,7 @@ export default function PilatesEnVillaCrespoPage () {
           description={page.hero.description}
           primary={{ href: '#asistente', label: business.cta.trial, intent: 'trial' }}
           secondary={{ href: routes.schedule, label: business.cta.schedule }}
-          image={images.studio[0]}
+          image={images.pages.villaCrespo}
           chips={['Batalla del Pari 484', 'Hasta 5 alumnos', 'Clase de prueba sin cargo']}
         />
         <Editorial

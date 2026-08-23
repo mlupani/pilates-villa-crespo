@@ -46,7 +46,7 @@ export default function ClaseDePruebaPage () {
           description={page.hero.description}
           primary={{ href: '#asistente', label: business.cta.trialMine, intent: 'trial' }}
           secondary={{ href: routes.schedule, label: business.cta.schedule }}
-          image={images.classes.mat}
+          image={images.pages.trial}
           chips={['Sin cargo', 'Sin experiencia previa', 'Hasta 5 alumnos']}
         />
         <TrialGuide />

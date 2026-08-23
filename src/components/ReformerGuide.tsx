@@ -13,7 +13,7 @@ const blocks = [
 ]
 
 export function ReformerGuide () {
-  const photos = [images.classes.reformer, images.studio[0], images.studio[2]]
+  const photos = images.reformerGuide
 
   return (
     <section className='bg-paper px-5 py-20 md:px-8 md:py-28'>

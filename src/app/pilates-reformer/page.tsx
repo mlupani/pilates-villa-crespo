@@ -36,7 +36,7 @@ export default function PilatesReformerPage () {
           description={page.hero.description}
           primary={{ href: '#asistente', label: business.cta.trial, intent: 'trial' }}
           secondary={{ href: routes.schedule, label: business.cta.schedule }}
-          image={images.classes.reformer}
+          image={images.pages.reformer}
           chips={['Hasta 5 alumnos', '50 minutos', 'Clase de prueba sin cargo']}
         />
         <ReformerGuide />

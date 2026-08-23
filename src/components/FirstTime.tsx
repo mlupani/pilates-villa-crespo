@@ -27,8 +27,8 @@ export function FirstTime () {
 
         <div className='reveal img-ken relative aspect-[4/5] overflow-hidden rounded-[1.8rem] lg:aspect-[5/6]'>
           <Image
-            src={images.classes.mat.src}
-            alt={images.classes.mat.alt}
+            src={images.firstTime.src}
+            alt={images.firstTime.alt}
             fill
             sizes='(max-width: 1024px) 92vw, 40vw'
             quality={70}

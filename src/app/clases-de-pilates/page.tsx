@@ -36,7 +36,7 @@ export default function ClasesDePilatesPage () {
           description={page.hero.description}
           primary={{ href: '#asistente', label: business.cta.trial, intent: 'trial' }}
           secondary={{ href: routes.reformer, label: 'Conocer Reformer' }}
-          image={images.classes.personal}
+          image={images.pages.classes}
           chips={['Reformer', 'Mat', 'Personalizado']}
         />
         <Editorial

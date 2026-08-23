@@ -43,7 +43,7 @@ export default function HorariosYPreciosPage () {
           description={page.hero.description}
           primary={{ href: '#asistente', label: business.cta.trial, intent: 'trial' }}
           secondary={{ href: '#asistente', label: business.cta.availability, intent: 'availability' }}
-          image={images.studio[2]}
+          image={images.pages.schedule}
           chips={['Lunes a sábado', 'Hasta 5 alumnos', 'Clase de prueba sin cargo']}
         />
         <Offer
