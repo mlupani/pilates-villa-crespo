@@ -27,7 +27,7 @@ const local = {
 
 export const images = {
   logo: {
-    src: '/logo.jpg',
+    src: '/logo.png',
     alt: 'Logo de Pilates Villa Crespo',
     width: 417,
     height: 417

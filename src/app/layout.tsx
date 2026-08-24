@@ -28,7 +28,8 @@ export const viewport: Viewport = {
   themeColor: '#f6f1ea',
   width: 'device-width',
   initialScale: 1,
-  viewportFit: 'cover'
+  viewportFit: 'cover',
+  interactiveWidget: 'resizes-content'
 }
 
 export const metadata: Metadata = {

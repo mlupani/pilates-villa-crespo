@@ -288,6 +288,19 @@ details.faq-item > summary::-webkit-details-marker {
 
 .chat-panel {
   animation: chat-in 0.35s var(--ease-soft) both;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  /* Usa dvh para que el teclado no desplace el panel en mobile */
+  max-height: calc(100dvh - 1.5rem);
+  max-height: calc(100dvh - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) - 1.5rem);
+  /* Aisla el scroll del panel del body */
+  isolation: isolate;
+}
+
+@supports not (height: 100dvh) {
+  .chat-panel {
+    max-height: calc(100svh - 1.5rem);
+  }
 }
 
 @keyframes chat-in {
