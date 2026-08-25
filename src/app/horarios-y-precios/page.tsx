@@ -49,7 +49,7 @@ export default function HorariosYPreciosPage () {
         <Offer
           eyebrow='Grilla y planes'
           title='Cupos, turnos y cómo continuar después de la prueba'
-          description='La grilla es de referencia. La disponibilidad de cupos puede variar según el horario. Los valores están publicados; el asistente te ayuda a elegir.'
+          description='La grilla es de referencia y podés tener horarios libres según tu disponibilidad. La disponibilidad de cupos puede variar según el horario y también se liberan lugares cuando alguien avisa que falta —lo avisamos en el grupo y podés tomarlo. Los valores están publicados; el asistente te ayuda a elegir.'
           showOpeningHours
         />
         <Faq
@@ -61,7 +61,7 @@ export default function HorariosYPreciosPage () {
         <RelatedPages
           links={[
             { href: routes.trial, label: 'Clase de prueba', detail: 'Cómo es la primera visita y qué tenés que llevar.' },
-            { href: routes.classes, label: 'Clases de Pilates', detail: 'Reformer, Mat o personalizado.' },
+            { href: routes.classes, label: 'Clases de Pilates', detail: 'Reformer o personalizado.' },
             { href: routes.villaCrespo, label: 'Cómo llegar', detail: 'Batalla del Pari 484, Villa Crespo.' }
           ]}
         />

@@ -7,7 +7,6 @@ import { business } from '@/content/business'
 
 const imageById = {
   reformer: images.classes.reformer,
-  mat: images.classes.mat,
   personal: images.classes.personal
 } as const
 

@@ -57,7 +57,7 @@ export default function PilatesEnVillaCrespoPage () {
         <Testimonials />
         <RelatedPages
           links={[
-            { href: routes.classes, label: 'Clases de Pilates', detail: 'Reformer, Mat o personalizado: elegí la modalidad.' },
+            { href: routes.classes, label: 'Clases de Pilates', detail: 'Reformer o personalizado: elegí la modalidad.' },
             { href: routes.schedule, label: 'Horarios y precios', detail: 'Mirá la grilla de referencia y consultá disponibilidad.' },
             { href: routes.trial, label: 'Clase de prueba', detail: 'El paso más simple para empezar en el estudio.' }
           ]}

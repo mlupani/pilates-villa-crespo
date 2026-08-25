@@ -35,7 +35,7 @@ export function Classes () {
             Una hora para vos, con seguimiento cercano
           </h2>
           <p className='mt-5 max-w-xl text-base leading-relaxed text-stone'>
-            Reformer es el corazón del estudio. Mat y las sesiones personalizadas completan, según lo que necesites.
+            Reformer es el corazón del estudio, con sesiones personalizadas según lo que necesites.
           </p>
         </div>
 
@@ -81,6 +81,15 @@ export function Classes () {
             </div>
           </div>
         </article>
+
+        <div className='mt-8 rounded-2xl border border-clay/15 bg-paper px-5 py-5 md:px-6'>
+          <p className='text-xs font-semibold uppercase tracking-[0.14em] text-clay'>
+            Horarios libres y cupos que se liberan
+          </p>
+          <p className='mt-2 text-sm leading-relaxed text-stone'>
+            Además de la grilla fija, podés tener <span className='font-semibold text-ink'>horarios libres</span> según tu disponibilidad. Cuando alguien avisa que falta, se libera un lugar y lo avisamos en el grupo de alumnas: cualquier alumna —sobre todo quienes tienen horarios libres— puede tomar ese hueco.
+          </p>
+        </div>
 
         <div className='mt-6 grid gap-6 md:grid-cols-2'>
           {others.map((item, index) => {

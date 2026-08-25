@@ -4,7 +4,7 @@ import { TrustChips } from '@/components/TrustChips'
 import { business } from '@/content/business'
 import { images } from '@/content/images'
 
-const chips = ['Hasta 5 alumnos por clase', 'No necesitás experiencia previa', 'Clase de prueba sin cargo']
+const chips = ['No necesitás experiencia previa', 'Clase de prueba sin cargo']
 
 export function Hero () {
   const announcement = business.announcement
@@ -61,7 +61,7 @@ export function Hero () {
           Estudio de Pilates · {business.neighborhood}
         </p>
         <h1 className='hero-enter-delay mt-4 max-w-3xl font-display text-[2.7rem] font-bold leading-[1.05] text-paper sm:text-6xl md:text-7xl'>
-          Pilates Reformer en Villa Crespo
+          Pilates en Villa Crespo
         </h1>
         <p className='hero-enter-late mt-5 max-w-xl text-base font-medium leading-relaxed text-paper/90 sm:text-lg'>
           {business.tagline}

@@ -43,7 +43,7 @@ export function Offer ({
                 Horarios de clases
               </h3>
               <p className='mt-2 text-sm leading-relaxed text-stone'>
-                La disponibilidad de cupos puede variar según el horario.
+                La disponibilidad de cupos puede variar según el horario. También podés tener horarios libres según tu disponibilidad.
               </p>
               <ul className='mt-8 divide-y divide-line border-y border-line'>
                 {business.schedule.map((slot) => (
@@ -77,6 +77,17 @@ export function Offer ({
                   </div>
                   )
                 : null}
+              <div className='mt-8 rounded-2xl border border-clay/15 bg-clay/[0.06] px-5 py-5'>
+                <p className='text-xs font-semibold uppercase tracking-[0.14em] text-clay'>
+                  Horarios libres y cupos por aviso
+                </p>
+                <p className='mt-2 text-sm leading-relaxed text-stone'>
+                  No hace falta que te ates a un único horario de la grilla. Podés tener <span className='font-semibold text-ink'>horarios libres</span> según tu disponibilidad: nos decís qué días y franjas te quedan cómodas y buscamos el mejor hueco.
+                </p>
+                <p className='mt-3 text-sm leading-relaxed text-stone'>
+                  Cuando alguien avisa que falta, se genera un lugar libre y lo avisamos en el grupo donde están todas las alumnas. Cualquier alumna —sobre todo quienes tienen horarios libres— puede tomar ese cupo. Es la forma más simple de recuperar o sumar una clase sin perder la tuya.
+                </p>
+              </div>
               <SmartLink href='#asistente' intent='availability' className='btn-primary mt-8'>
                 {business.cta.availability}
               </SmartLink>

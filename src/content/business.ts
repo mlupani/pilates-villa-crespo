@@ -152,11 +152,11 @@ export const business = {
   audience: 'Las clases se adaptan a tu experiencia, características y objetivos. Podés empezar aunque nunca hayas hecho Pilates.',
   announcement: {
     enabled: true,
-    text: 'Clase de prueba sin cargo · Hasta 5 alumnos por clase',
+    text: 'Clase de prueba sin cargo',
     href: '#asistente',
     intent: 'trial'
   } satisfies Announcement,
-  atmosphere: ['Reformer', 'Hasta 5 alumnos', 'Clase de prueba sin cargo', 'Villa Crespo'],
+  atmosphere: ['Reformer', 'Clase de prueba sin cargo', 'Villa Crespo'],
   community: {
     eyebrow: 'La comunidad',
     title: 'Hay lugar para todos los ritmos',
@@ -219,13 +219,6 @@ export const business = {
       imageKey: 'reformer'
     },
     {
-      id: 'mat',
-      name: 'Pilates Mat',
-      description: 'Trabajo en colchoneta de fuerza, movilidad y control. Una base clara para empezar o complementar Reformer, adaptada a tu nivel.',
-      forWhom: 'Grupal · Todos los niveles',
-      imageKey: 'mat'
-    },
-    {
       id: 'personal',
       name: 'Pilates Personalizado',
       description: 'Una sesión individual, 100% adaptada a tus objetivos, ritmos y necesidades, con seguimiento cercano.',
@@ -286,12 +279,20 @@ export const business = {
       answer: 'No es obligatorio. Si preferís usarlas, traelas. Si no, te recibimos igual.'
     },
     {
+      question: '¿Qué son los horarios libres?',
+      answer: 'Son horarios flexibles según tu disponibilidad. Además de los turnos fijos de la grilla, podés tener horarios libres: nos decís qué días y franjas te quedan cómodas y buscamos el mejor hueco. Ideal si tu semana cambia o querés sumar más frecuencia sin atarte a un único horario.'
+    },
+    {
       question: '¿Cómo funcionan las recuperaciones?',
-      answer: 'Las recuperaciones se coordinan según disponibilidad. Escribinos por el asistente y te explicamos cómo funciona en tu caso.'
+      answer: 'Las recuperaciones se coordinan según disponibilidad. Podés tener horario fijo o horario libre. Cuando alguien avisa que falta, se libera un lugar y lo avisamos en el grupo de alumnas —sobre todo quienes tienen horarios libres pueden tomarlo— para que no se pierda el cupo. Escribinos por el asistente y te explicamos cómo funciona en tu caso.'
+    },
+    {
+      question: '¿Cómo aprovecho un lugar que se libera cuando alguien falta?',
+      answer: 'Cuando una alumna avisa que no viene, queda un hueco en ese horario. Lo avisamos en el grupo donde están todas y cualquier alumna puede tomarlo, en especial quienes tienen horarios libres. Es una forma simple de sumar una clase y no perder la tuya.'
     },
     {
       question: '¿Cómo consulto disponibilidad?',
-      answer: 'Mirá la grilla de horarios en la web y consultanos por el asistente. La disponibilidad de cupos puede variar según el horario; te confirmamos el lugar antes de que vengas.'
+      answer: 'Mirá la grilla de horarios en la web y consultanos por el asistente. Podés consultar por un horario fijo o por horarios libres según tu disponibilidad. La disponibilidad de cupos puede variar según el horario; te confirmamos el lugar antes de que vengas.'
     }
   ] satisfies FaqItem[],
   schedule: [
@@ -345,18 +346,17 @@ export const business = {
     }
   ] satisfies BookingStep[],
   seo: {
-    title: 'Pilates Villa Crespo | Reformer en grupos reducidos',
-    description: 'Estudio de Pilates Reformer en Villa Crespo. Grupos de hasta 5 alumnos, clases de 50 minutos y clase de prueba sin cargo. Sin experiencia previa. Reservá tu lugar.',
+    title: 'Pilates en Villa Crespo',
+    description: 'Estudio de Pilates en Villa Crespo. Grupos de hasta 5 alumnos, clases de 50 minutos y clase de prueba sin cargo. Sin experiencia previa. Reservá tu lugar.',
     keywords: [
       'Pilates Villa Crespo',
-      'Pilates Reformer Villa Crespo',
+      'Pilates en Villa Crespo',
       'clases de Pilates Villa Crespo',
       'estudio de Pilates Villa Crespo',
       'Pilates Reformer',
       'pilates grupos reducidos',
       'clase prueba pilates',
       'pilates CABA',
-      'pilates mat villa crespo',
       'estudio pilates Buenos Aires'
     ]
   }

@@ -104,10 +104,10 @@ export const images = {
   ] satisfies StudioImage[],
   reformerGuide: [
     {
-      src: local.hamstring,
-      alt: 'Estiramiento en Reformer durante una clase en el estudio',
+      src: local.legsUp,
+      alt: 'Alumnas en Reformer durante una primera clase, con piernas en straps',
       width: 640,
-      height: 480
+      height: 800
     },
     {
       src: local.groupRest,

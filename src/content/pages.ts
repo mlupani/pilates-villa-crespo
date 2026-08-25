@@ -5,8 +5,8 @@ export const pages = {
   villaCrespo: {
     path: routes.villaCrespo,
     seo: {
-      title: 'Pilates en Villa Crespo: Reformer y Mat en grupos reducidos',
-      description: 'Estudio de Pilates en Villa Crespo, CABA. Clases de Reformer y Mat en grupos reducidos, a pasos de Warnes. Reservá tu clase de prueba sin cargo.'
+      title: 'Pilates en Villa Crespo: clases en grupos reducidos',
+      description: 'Estudio de Pilates en Villa Crespo, CABA. Clases de Reformer en grupos reducidos, a pasos de Warnes. Reservá tu clase de prueba sin cargo.'
     },
     hero: {
       eyebrow: 'Estudio en el barrio',
@@ -17,13 +17,13 @@ export const pages = {
   classes: {
     path: routes.classes,
     seo: {
-      title: 'Clases de Pilates Reformer, Mat y Personalizadas',
-      description: 'Conocé las clases de Pilates Reformer, Mat y personalizadas en Villa Crespo. Elegí la modalidad que mejor se adapte a vos y reservá una clase de prueba sin cargo.'
+      title: 'Clases de Pilates Reformer y Personalizadas',
+      description: 'Conocé las clases de Pilates Reformer y personalizadas en Villa Crespo. Elegí la modalidad que mejor se adapte a vos y reservá una clase de prueba sin cargo.'
     },
     hero: {
       eyebrow: 'Modalidades',
-      title: 'Tres formas de practicar Pilates, según lo que necesites',
-      description: 'Reformer, Mat o una sesión personalizada. Las tres se adaptan a tu nivel: no hace falta haber practicado antes para empezar.'
+      title: 'Dos formas de practicar Pilates, según lo que necesites',
+      description: 'Reformer en grupo reducido o una sesión personalizada. Las dos se adaptan a tu nivel: no hace falta haber practicado antes para empezar.'
     }
   },
   reformer: {
@@ -73,15 +73,6 @@ export const classGuide = [
     what: 'Es la práctica sobre la máquina Reformer: un carro móvil, springs y accesorios que acompañan cada ejercicio. Permite trabajar fuerza, movilidad y control con más contención que el trabajo solo en el piso.',
     who: 'Sirve si nunca hiciste Pilates, si volvés a moverte o si ya practicás y buscás un espacio más cuidado. La máquina se regula: no hace falta “saber” usarla de antemano.',
     next: 'Si te interesa esta modalidad, podés leer cómo es una clase de Reformer o ir directo a reservar una clase de prueba.'
-  },
-  {
-    id: 'mat',
-    name: 'Pilates Mat',
-    forWhom: 'Ideal para comenzar',
-    href: `${routes.classes}#pilates-mat`,
-    what: 'Es el trabajo en colchoneta, con el propio cuerpo como resistencia. Se enfoca en fuerza, movilidad y conciencia del centro, con ejercicios que podés reconocer y repetir con claridad.',
-    who: 'Puede ser un buen punto de partida si preferís empezar sin máquina, o un complemento si ya venís a Reformer y querés sostener la práctica de otra forma.',
-    next: 'Para conocer el espacio y la dinámica del estudio, lo más simple es una clase de prueba. Ahí vemos juntos qué modalidad te queda mejor.'
   },
   {
     id: 'personal',

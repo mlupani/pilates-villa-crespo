@@ -37,18 +37,27 @@ export default function ClasesDePilatesPage () {
           primary={{ href: '#asistente', label: business.cta.trial, intent: 'trial' }}
           secondary={{ href: routes.reformer, label: 'Conocer Reformer' }}
           image={images.pages.classes}
-          chips={['Reformer', 'Mat', 'Personalizado']}
+          chips={['Reformer', 'Personalizado']}
         />
         <Editorial
           eyebrow='Cómo elegir'
           title='No hay una clase “mejor”: hay una que se adapta a vos'
           paragraphs={[
-            'En el estudio trabajamos tres modalidades: Pilates Reformer, Pilates Mat y Pilates Personalizado. Las tres apuntan a fuerza, movilidad y control, con grupos de hasta 5 alumnos o seguimiento uno a uno.',
+            'En el estudio trabajamos dos modalidades: Pilates Reformer y Pilates Personalizado. Las dos apuntan a fuerza, movilidad y control, con grupos de hasta 5 alumnos o seguimiento uno a uno.',
             'Si es tu primera vez, no hace falta decidirlo todo ahora. En una clase de prueba sin cargo vemos juntas qué te queda más cómodo. Si ya sabés que te interesa la máquina, podés ir directo a Reformer.'
           ]}
           tone='cream'
         />
         <ClassGuide />
+        <Editorial
+          eyebrow='Horarios libres'
+          title='No tenés que atarte a un único horario'
+          paragraphs={[
+            'Además de los turnos fijos de la grilla, podés tener horarios libres según tu disponibilidad: nos decís qué días y franjas te quedan cómodas y buscamos el mejor hueco.',
+            'Cuando alguien avisa que falta, se genera un lugar libre. Lo avisamos en el grupo donde están todas las alumnas y cualquier alumna —sobre todo quienes tienen horarios libres— puede tomarlo. Es una forma flexible de no perder la clase y de sumar frecuencia sin depender de un solo horario.'
+          ]}
+          tone='paper'
+        />
         <RelatedPages
           links={[
             { href: routes.reformer, label: 'Pilates Reformer', detail: 'Cómo es la máquina, la clase y la primera visita.' },

@@ -45,7 +45,7 @@ export default function PilatesReformerPage () {
           links={[
             { href: routes.trial, label: 'Clase de prueba', detail: 'Conocé la máquina en una primera visita, sin experiencia previa.' },
             { href: routes.schedule, label: 'Horarios y precios', detail: 'Mirá la grilla y consultá si hay cupo.' },
-            { href: routes.classes, label: 'Otras clases', detail: 'También hay Mat y sesiones personalizadas.' }
+            { href: routes.classes, label: 'Otras clases', detail: 'También hay sesiones personalizadas.' }
           ]}
         />
         <FinalCTA
