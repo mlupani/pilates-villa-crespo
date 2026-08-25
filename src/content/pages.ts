@@ -5,8 +5,8 @@ export const pages = {
   villaCrespo: {
     path: routes.villaCrespo,
     seo: {
-      title: 'Pilates en Villa Crespo',
-      description: 'Estudio de Pilates en Villa Crespo, CABA. Clases de Reformer y Mat en grupos reducidos, a pasos de Warnes. Reservá una clase de prueba.'
+      title: 'Pilates en Villa Crespo: Reformer y Mat en grupos reducidos',
+      description: 'Estudio de Pilates en Villa Crespo, CABA. Clases de Reformer y Mat en grupos reducidos, a pasos de Warnes. Reservá tu clase de prueba sin cargo.'
     },
     hero: {
       eyebrow: 'Estudio en el barrio',
@@ -17,8 +17,8 @@ export const pages = {
   classes: {
     path: routes.classes,
     seo: {
-      title: 'Clases de Pilates',
-      description: 'Conocé las clases de Pilates Reformer, Mat y personalizadas en Villa Crespo. Elegí la modalidad que mejor se adapte a vos y reservá una clase de prueba.'
+      title: 'Clases de Pilates Reformer, Mat y Personalizadas',
+      description: 'Conocé las clases de Pilates Reformer, Mat y personalizadas en Villa Crespo. Elegí la modalidad que mejor se adapte a vos y reservá una clase de prueba sin cargo.'
     },
     hero: {
       eyebrow: 'Modalidades',
@@ -29,8 +29,8 @@ export const pages = {
   reformer: {
     path: routes.reformer,
     seo: {
-      title: 'Pilates Reformer',
-      description: 'Clases de Pilates Reformer en Villa Crespo. Grupos reducidos, todos los niveles y una primera clase para conocer la máquina y el estudio.'
+      title: 'Pilates Reformer en Villa Crespo | Grupos reducidos',
+      description: 'Clases de Pilates Reformer en Villa Crespo. Grupos de hasta 5, todos los niveles y clase de prueba sin cargo para conocer la máquina y el estudio.'
     },
     hero: {
       eyebrow: 'Pilates Reformer',
@@ -41,8 +41,8 @@ export const pages = {
   schedule: {
     path: routes.schedule,
     seo: {
-      title: 'Horarios y precios',
-      description: 'Consultá horarios y planes de Pilates en Villa Crespo. Confirmamos disponibilidad y valores al reservar tu clase de prueba.'
+      title: 'Horarios y precios de Pilates en Villa Crespo',
+      description: 'Consultá horarios y planes de Pilates Reformer en Villa Crespo. Valores publicados y disponibilidad confirmada al reservar tu clase de prueba sin cargo.'
     },
     hero: {
       eyebrow: 'Información práctica',
@@ -53,8 +53,8 @@ export const pages = {
   trial: {
     path: routes.trial,
     seo: {
-      title: 'Clase de prueba',
-      description: 'Reservá tu primera clase de Pilates en Villa Crespo. Sin experiencia previa: te contamos qué esperar, qué llevar y cómo llegar al estudio.'
+      title: 'Clase de prueba sin cargo en Villa Crespo',
+      description: 'Reservá tu primera clase de Pilates en Villa Crespo sin cargo. Sin experiencia previa: te contamos qué esperar, qué llevar y cómo llegar a Batalla del Pari 484.'
     },
     hero: {
       eyebrow: 'Primera visita',

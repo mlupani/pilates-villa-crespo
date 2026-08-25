@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { business } from '@/content/business'
+import { images } from '@/content/images'
 import { getAbsoluteUrl, isIndexable } from '@/lib/site'
 
 export interface PageMetadataInput {
@@ -20,10 +21,11 @@ export function createPageMetadata ({
   ogTitle,
   noIndex = false
 }: PageMetadataInput): Metadata {
-  const canonical = path
+  const canonical = getAbsoluteUrl(path)
   const url = getAbsoluteUrl(path)
   const indexable = isIndexable() && !noIndex
   const socialTitle = ogTitle ?? title
+  const ogImageUrl = getAbsoluteUrl(images.og.src)
 
   return {
     title: absoluteTitle ? { absolute: title } : title,
@@ -49,12 +51,21 @@ export function createPageMetadata ({
       url,
       locale: 'es_AR',
       type: 'website',
-      siteName: business.name
+      siteName: business.name,
+      images: [
+        {
+          url: ogImageUrl,
+          width: images.og.width,
+          height: images.og.height,
+          alt: images.og.alt
+        }
+      ]
     },
     twitter: {
       card: 'summary_large_image',
       title: socialTitle,
-      description
+      description,
+      images: [ogImageUrl]
     }
   }
 }

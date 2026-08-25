@@ -346,12 +346,18 @@ export const business = {
   ] satisfies BookingStep[],
   seo: {
     title: 'Pilates Villa Crespo | Reformer en grupos reducidos',
-    description: 'Estudio de Pilates Reformer en Villa Crespo. Grupos de hasta 5 alumnos, clases de 50 minutos y clase de prueba sin cargo. Sin experiencia previa.',
+    description: 'Estudio de Pilates Reformer en Villa Crespo. Grupos de hasta 5 alumnos, clases de 50 minutos y clase de prueba sin cargo. Sin experiencia previa. Reservá tu lugar.',
     keywords: [
       'Pilates Villa Crespo',
+      'Pilates Reformer Villa Crespo',
+      'clases de Pilates Villa Crespo',
+      'estudio de Pilates Villa Crespo',
       'Pilates Reformer',
-      'clases de Pilates en Buenos Aires',
-      'estudio de Pilates Villa Crespo'
+      'pilates grupos reducidos',
+      'clase prueba pilates',
+      'pilates CABA',
+      'pilates mat villa crespo',
+      'estudio pilates Buenos Aires'
     ]
   }
 }

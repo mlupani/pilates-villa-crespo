@@ -2,7 +2,6 @@ import { business } from '@/content/business'
 import { images } from '@/content/images'
 import {
   getEmail,
-  getFullAddress,
   getGeo,
   getMapsUrl,
   getSameAs,
@@ -38,7 +37,7 @@ function localBusinessNode () {
     address: {
       '@type': 'PostalAddress',
       streetAddress: business.local.streetAddress,
-      addressLocality: business.local.neighborhood,
+      addressLocality: business.local.city,
       addressRegion: business.local.region,
       postalCode: business.local.postalCode,
       addressCountry: business.local.country
@@ -71,17 +70,20 @@ function localBusinessNode () {
         }
       }
     },
+    priceRange: '$$',
     knowsLanguage: 'es-AR',
     inLanguage: 'es-AR',
-    currenciesAccepted: 'ARS'
+    currenciesAccepted: 'ARS',
+    paymentAccepted: 'Cash, Transfer'
   }
 
   if (telephone) {
-    node.telephone = telephone
+    const telE164 = telephone.startsWith('+') ? telephone : `+${telephone.replace(/^\+/, '')}`
+    node.telephone = telE164
     node.contactPoint = {
       '@type': 'ContactPoint',
       contactType: 'customer service',
-      telephone,
+      telephone: telE164,
       areaServed: 'AR',
       availableLanguage: ['Spanish']
     }
@@ -94,8 +96,7 @@ function localBusinessNode () {
     node.geo = {
       '@type': 'GeoCoordinates',
       latitude: geo.latitude,
-      longitude: geo.longitude,
-      address: getFullAddress()
+      longitude: geo.longitude
     }
   }
 
@@ -141,6 +142,15 @@ function websiteNode () {
     inLanguage: 'es-AR',
     publisher: {
       '@id': `${origin}/#localbusiness`
+    },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${origin}/?q={search_term_string}`
+      },
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      'query-input': 'required name=search_term_string'
     }
   }
 }

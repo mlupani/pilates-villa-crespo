@@ -162,7 +162,7 @@ export const images = {
   },
   og: {
     src: '/og.jpg',
-    alt: 'Pilates Villa Crespo, estudio de Reformer en Buenos Aires',
+    alt: 'Pilates Reformer Villa Crespo — grupos reducidos, clase de prueba sin cargo',
     width: 1200,
     height: 630
   },
