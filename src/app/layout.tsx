@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from 'next'
-import Script from 'next/script'
 import { Cormorant_Garamond as CormorantGaramond, Figtree } from 'next/font/google'
 import { JsonLd } from '@/components/JsonLd'
 import { Analytics } from '@/components/Analytics'
@@ -89,16 +88,16 @@ export default function RootLayout ({ children }: LayoutProps<'/'>) {
       lang='es-AR'
       className={`${display.variable} ${sans.variable} h-full antialiased`}
     >
-      {/* Google tag (gtag.js) - después de <head> */}
-      <Script async src='https://www.googletagmanager.com/gtag/js?id=G-Q63L8E8LDE' strategy='afterInteractive' />
-      <Script id='gtag-init' strategy='afterInteractive'>
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-Q63L8E8LDE');
-        `}
-      </Script>
+      {/* Google tag (gtag.js) */}
+      <script async src='https://www.googletagmanager.com/gtag/js?id=G-Q63L8E8LDE' />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-Q63L8E8LDE');`
+        }}
+      />
       <body className='min-h-full bg-cream font-sans text-ink'>
         <JsonLd data={getSiteJsonLd()} />
         {children}
