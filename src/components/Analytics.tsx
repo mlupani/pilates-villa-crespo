@@ -2,13 +2,10 @@
 
 import { useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
-import { GoogleAnalytics } from '@next/third-parties/google'
-import { getGaMeasurementId } from '@/lib/analytics'
 import { bindClickTracking, trackPageView } from '@/lib/track'
 
 export function Analytics () {
   const pathname = usePathname()
-  const gaId = getGaMeasurementId()
   const skipInitialPageView = useRef(true)
 
   useEffect(() => bindClickTracking(), [])
@@ -22,7 +19,5 @@ export function Analytics () {
     trackPageView(pathname)
   }, [pathname])
 
-  if (!gaId) return null
-
-  return <GoogleAnalytics gaId={gaId} />
+  return null
 }
