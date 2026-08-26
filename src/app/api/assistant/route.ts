@@ -3,6 +3,9 @@ import {
   assistantResponseSchema
 } from '@/lib/schemas'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 const UPSTREAM_TIMEOUT_MS = 25_000
 
 function normalizeEndpoint (value: string) {
@@ -21,25 +24,30 @@ export async function GET () {
   const config = getAssistantConfig()
   if (!config) {
     return Response.json({ available: false }, {
-      headers: { 'Cache-Control': 'no-store' }
+      headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' }
     })
   }
 
-  // Verify real upstream connectivity with a short probe.
-  // Any HTTP response (even 404/405) means the network path is reachable.
-  // Only a network/timeout failure is treated as unavailable.
   try {
-    await fetch(config.endpoint, {
+    const probe = await fetch(config.endpoint, {
       method: 'GET',
       headers: { 'x-api-key': config.apiKey },
+      cache: 'no-store',
       signal: AbortSignal.timeout(5000)
     })
+    // Fix VPS bug: fetch no throw on proxy 502. Need to check status.
+    // 5xx = upstream down (nginx 502, service 500). 4xx (401/404/405) = service up but method/key rejected -> still available.
+    if (probe.status >= 500) {
+      return Response.json({ available: false }, {
+        headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' }
+      })
+    }
     return Response.json({ available: true }, {
-      headers: { 'Cache-Control': 'no-store' }
+      headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' }
     })
   } catch {
     return Response.json({ available: false }, {
-      headers: { 'Cache-Control': 'no-store' }
+      headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' }
     })
   }
 }
@@ -84,6 +92,7 @@ export async function POST (request: Request) {
         'x-api-key': config.apiKey
       },
       body: JSON.stringify(payload),
+      cache: 'no-store',
       signal: AbortSignal.timeout(UPSTREAM_TIMEOUT_MS)
     })
   } catch {
