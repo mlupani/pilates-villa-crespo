@@ -17,6 +17,33 @@ function getAssistantConfig () {
   return { endpoint: normalizeEndpoint(endpoint), apiKey }
 }
 
+export async function GET () {
+  const config = getAssistantConfig()
+  if (!config) {
+    return Response.json({ available: false }, {
+      headers: { 'Cache-Control': 'no-store' }
+    })
+  }
+
+  // Verify real upstream connectivity with a short probe.
+  // Any HTTP response (even 404/405) means the network path is reachable.
+  // Only a network/timeout failure is treated as unavailable.
+  try {
+    await fetch(config.endpoint, {
+      method: 'GET',
+      headers: { 'x-api-key': config.apiKey },
+      signal: AbortSignal.timeout(5000)
+    })
+    return Response.json({ available: true }, {
+      headers: { 'Cache-Control': 'no-store' }
+    })
+  } catch {
+    return Response.json({ available: false }, {
+      headers: { 'Cache-Control': 'no-store' }
+    })
+  }
+}
+
 export async function POST (request: Request) {
   const config = getAssistantConfig()
   if (!config) {

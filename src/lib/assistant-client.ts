@@ -4,6 +4,20 @@ import {
   type AssistantResponse
 } from '@/lib/schemas'
 
+export async function checkAssistantAvailability (): Promise<boolean> {
+  try {
+    const response = await fetch('/api/assistant', {
+      method: 'GET',
+      cache: 'no-store'
+    })
+    if (!response.ok) return false
+    const data = (await response.json()) as { available?: boolean }
+    return data.available === true
+  } catch {
+    return false
+  }
+}
+
 export async function sendAssistantMessage (
   input: AssistantClientRequest
 ): Promise<AssistantResponse> {

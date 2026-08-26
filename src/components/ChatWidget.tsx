@@ -9,7 +9,7 @@ import { QuickReplies } from '@/components/QuickReplies'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
 import { business } from '@/content/business'
 import { analyticsEvents } from '@/lib/analytics'
-import { sendAssistantMessage } from '@/lib/assistant-client'
+import { checkAssistantAvailability, sendAssistantMessage } from '@/lib/assistant-client'
 import { quickReplies } from '@/lib/assistant'
 import { track } from '@/lib/track'
 import { cn } from '@/lib/utils'
@@ -28,6 +28,7 @@ function ChatWidgetPanel () {
   const [input, setInput] = useState('')
   const [hydrated, setHydrated] = useState(false)
   const [error, setError] = useState('')
+  const [availability, setAvailability] = useState<'checking' | 'available' | 'unavailable'>('checking')
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const panelRef = useRef<HTMLElement>(null)
@@ -56,6 +57,20 @@ function ChatWidgetPanel () {
 
   useEffect(() => {
     let cancelled = false
+    checkAssistantAvailability()
+      .then((ok) => {
+        if (!cancelled) setAvailability(ok ? 'available' : 'unavailable')
+      })
+      .catch(() => {
+        if (!cancelled) setAvailability('unavailable')
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  useEffect(() => {
+    let cancelled = false
 
     async function hydrate () {
       try {
@@ -74,8 +89,10 @@ function ChatWidgetPanel () {
 
   useEffect(() => {
     if (!hydrated) return
+    if (availability !== 'available') return
 
     function openAssistant (source: 'fab' | 'hash' | 'link', intent?: string | null) {
+      if (availability !== 'available') return
       openSource.current = source
       if (intent?.trim()) pendingIntent.current = intent.trim()
       setOpen(true)
@@ -99,7 +116,7 @@ function ChatWidgetPanel () {
       window.removeEventListener('hashchange', onHash)
       document.removeEventListener('click', onClick)
     }
-  }, [hydrated])
+  }, [hydrated, availability])
 
   useEffect(() => {
     if (!open) return
@@ -253,9 +270,11 @@ function ChatWidgetPanel () {
     sendTextRef.current(intent)
   }, [open, hydrated])
 
+  const isAssistantAvailable = availability === 'available'
+
   return (
     <>
-      {open
+      {isAssistantAvailable && open
         ? (
           <section
             ref={panelRef}
@@ -370,10 +389,10 @@ function ChatWidgetPanel () {
         id='asistente'
         className={cn(
           'fab-dock pointer-events-auto flex flex-col items-end gap-3',
-          open && 'max-md:hidden'
+          isAssistantAvailable && open && 'max-md:hidden'
         )}
       >
-        {!open
+        {isAssistantAvailable && !open
           ? (
             <p className='rounded-full bg-paper px-3 py-2 text-xs font-medium text-ink shadow-[0_8px_24px_rgba(31,27,24,0.1)]'>
               ¿Probamos una clase sin cargo?
@@ -382,17 +401,21 @@ function ChatWidgetPanel () {
           : null}
         <div className='flex items-center gap-3'>
           <WhatsAppButton />
-          <button
-            type='button'
-            className='inline-flex size-14 items-center justify-center rounded-full bg-clay text-paper shadow-[0_12px_30px_rgba(154,98,72,0.35)] transition-transform duration-300 [@media(hover:hover)]:hover:-translate-y-0.5'
-            aria-label={open ? 'Cerrar asistente' : 'Abrir asistente'}
-            onClick={() => {
-              if (!open) openSource.current = 'fab'
-              setOpen((value) => !value)
-            }}
-          >
-            {open ? <X size={22} /> : <Sparkles size={22} />}
-          </button>
+          {isAssistantAvailable
+            ? (
+              <button
+                type='button'
+                className='inline-flex size-14 items-center justify-center rounded-full bg-clay text-paper shadow-[0_12px_30px_rgba(154,98,72,0.35)] transition-transform duration-300 [@media(hover:hover)]:hover:-translate-y-0.5'
+                aria-label={open ? 'Cerrar asistente' : 'Abrir asistente'}
+                onClick={() => {
+                  if (!open) openSource.current = 'fab'
+                  setOpen((value) => !value)
+                }}
+              >
+                {open ? <X size={22} /> : <Sparkles size={22} />}
+              </button>
+              )
+            : null}
         </div>
       </div>
     </>
