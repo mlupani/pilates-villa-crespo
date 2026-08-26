@@ -29,15 +29,25 @@ export async function GET () {
   }
 
   try {
+    // Use POST for health check — it hits the real widget handler.
+    // GET to /api/widget/messages often returns 404 even when healthy,
+    // so it can't distinguish proxy vs service. POST validates the path.
+    // Send intentionally invalid payload (empty message) to avoid LLM cost:
+    // healthy service -> 400 (validation), unhealthy/proxy -> 5xx or throw.
     const probe = await fetch(config.endpoint, {
-      method: 'GET',
-      headers: { 'x-api-key': config.apiKey },
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': config.apiKey
+      },
+      body: JSON.stringify({ message: '', source: 'website' }),
       cache: 'no-store',
-      signal: AbortSignal.timeout(5000)
+      signal: AbortSignal.timeout(4000)
     })
-    // Fix VPS bug: fetch no throw on proxy 502. Need to check status.
-    // 5xx = upstream down (nginx 502, service 500). 4xx (401/404/405) = service up but method/key rejected -> still available.
-    if (probe.status >= 500) {
+    // Distinguish healthy vs proxy 404: healthy POST never 404, only 200/400/401.
+    // pilatesvillacrespo.api.atenzia.tech down returns 404 text/plain "404 page not found" (Go).
+    // Treat 404 and 5xx as unavailable.
+    if (probe.status === 404 || probe.status >= 500) {
       return Response.json({ available: false }, {
         headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' }
       })
