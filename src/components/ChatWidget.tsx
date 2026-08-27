@@ -6,6 +6,7 @@ import { Send, Sparkles, X } from 'lucide-react'
 import { ChatMessage } from '@/components/ChatMessage'
 import { Logo } from '@/components/Logo'
 import { QuickReplies } from '@/components/QuickReplies'
+import { InstagramButton } from '@/components/InstagramButton'
 import { WhatsAppButton } from '@/components/WhatsAppButton'
 import { business } from '@/content/business'
 import { analyticsEvents } from '@/lib/analytics'
@@ -385,6 +386,17 @@ function ChatWidgetPanel () {
           )
         : null}
 
+      {/* Mobile: Instagram fixed bottom-left to avoid overloading right side */}
+      <div
+        className={cn(
+          'pointer-events-auto fixed bottom-[max(1rem,env(safe-area-inset-bottom,0px))] left-[max(1rem,env(safe-area-inset-left,0px))] z-50 md:hidden',
+          isAssistantAvailable && open && 'max-md:hidden'
+        )}
+        aria-hidden={isAssistantAvailable && open ? true : undefined}
+      >
+        <InstagramButton />
+      </div>
+
       <div
         id='asistente'
         className={cn(
@@ -400,6 +412,10 @@ function ChatWidgetPanel () {
             )
           : null}
         <div className='flex items-center gap-3'>
+          {/* Desktop: Instagram left of WhatsApp */}
+          <span className='hidden md:inline-flex'>
+            <InstagramButton />
+          </span>
           <WhatsAppButton />
           {isAssistantAvailable
             ? (
