@@ -102,7 +102,7 @@ const local = {
     latitude: envOrPlaceholder(process.env.NEXT_PUBLIC_GEO_LATITUDE, 'TODO_GEO_LATITUDE'),
     longitude: envOrPlaceholder(process.env.NEXT_PUBLIC_GEO_LONGITUDE, 'TODO_GEO_LONGITUDE')
   },
-  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Batalla+del+Pari+484+Villa+Crespo+Buenos+Aires',
+  mapsUrl: 'https://www.google.com/maps/dir/-34.6794718,-58.3718753/Pilates+Villa+Crespo,+Batalla+del+Pari+484,+C1414+DXB,+Cdad.+Aut%C3%B3noma+de+Buenos+Aires/@-34.6406008,-58.4937306,12z/data=!4m10!4m9!1m1!4e1!1m5!1m1!1s0x95bccb8846517d8f:0x12d0c73486a303e2!2m2!1d-58.4522129!2d-34.599388!3e0?entry=ttu&g_ep=EgoyMDI2MDgyNS4wIKXMDSoASAFQAw%3D%3D',
   mapsEmbedUrl: envOrPlaceholder(process.env.NEXT_PUBLIC_MAPS_EMBED_URL, 'TODO_MAPS_EMBED_URL')
 }
 
