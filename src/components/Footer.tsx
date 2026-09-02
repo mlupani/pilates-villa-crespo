@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Logo } from '@/components/Logo'
 import { SmartLink } from '@/components/SmartLink'
 import { business } from '@/content/business'
@@ -28,7 +29,8 @@ export function Footer () {
   const profiles = getPublicProfiles()
 
   return (
-    <footer className='border-t border-line bg-cream px-5 py-14 md:px-8'>
+    <footer>
+      <div className='border-t border-line bg-cream px-5 py-14 md:px-8'>
       <div className='mx-auto grid max-w-6xl gap-10 md:grid-cols-[1.2fr_1fr_1fr]'>
         <div>
           <SmartLink href={routes.home} className='inline-block h-24 w-24'>
@@ -121,6 +123,24 @@ export function Footer () {
             ))}
           </ul>
         </address>
+      </div>
+      </div>
+      <div className='bg-black'>
+        <a
+          href='https://novaluptech.com'
+          target='_blank'
+          rel='noreferrer'
+          className='flex items-center justify-center gap-2 px-5 py-2.5 text-[11px] tracking-[0.12em] text-white/40 transition-colors hover:text-white/70'
+        >
+          <Image
+            src='/novalup.png'
+            alt=''
+            width={20}
+            height={20}
+            className='size-5 rounded-full'
+          />
+          Desarrollado por Novalup Tech · Web + IA
+        </a>
       </div>
     </footer>
   )
