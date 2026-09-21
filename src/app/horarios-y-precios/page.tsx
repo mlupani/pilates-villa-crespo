@@ -49,7 +49,7 @@ export default function HorariosYPreciosPage () {
         <Offer
           eyebrow='Grilla y planes'
           title='Cupos, turnos y cómo continuar después de la prueba'
-          description='La grilla es de referencia y podés tener horarios libres según tu disponibilidad. La disponibilidad de cupos puede variar según el horario y también se liberan lugares cuando alguien avisa que falta —lo avisamos en el grupo y podés tomarlo. Los valores están publicados; el asistente te ayuda a elegir.'
+          description='La grilla es de referencia y podés tener horarios libres según tu disponibilidad. La disponibilidad de cupos puede variar según el horario y también se liberan lugares cuando alguien avisa que falta —lo avisamos en el grupo y podés tomarlo. El asistente te ayuda a elegir.'
           showOpeningHours
         />
         <Faq

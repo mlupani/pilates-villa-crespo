@@ -111,14 +111,9 @@ export function Offer ({
                       ? 'rounded-[1.2rem] border border-clay/30 bg-cream px-5 py-5'
                       : 'border-t border-line pt-5 first:border-t-0 first:pt-0'}
                   >
-                    <div className='flex flex-wrap items-baseline justify-between gap-3'>
-                      <p className='font-display text-xl font-medium text-ink'>
-                        {plan.name}
-                      </p>
-                      <p className='font-display text-2xl font-medium text-ink'>
-                        {plan.amount}
-                      </p>
-                    </div>
+                    <p className='font-display text-xl font-medium text-ink'>
+                      {plan.name}
+                    </p>
                     {plan.featured
                       ? (
                         <p className='mt-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-clay'>

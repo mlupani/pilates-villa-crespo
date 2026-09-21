@@ -64,7 +64,6 @@ export interface FaqItem {
 export interface PricePlan {
   name: string
   detail: string
-  amount: string
   featured?: boolean
 }
 
@@ -306,9 +305,9 @@ export const business = {
     }
   ] satisfies ScheduleSlot[],
   prices: [
-    { name: '4 clases por mes', detail: 'Ideal para empezar con calma.', amount: '$58.500' },
-    { name: '8 clases por mes', detail: 'La opción más elegida para una práctica regular.', amount: '$69.500', featured: true },
-    { name: '12 clases por mes', detail: 'Si ya tenés el hábito y querés más frecuencia.', amount: '$85.000' }
+    { name: '4 clases por mes', detail: 'Ideal para empezar con calma.' },
+    { name: '8 clases por mes', detail: 'La opción más elegida para una práctica regular.', featured: true },
+    { name: '12 clases por mes', detail: 'Si ya tenés el hábito y querés más frecuencia.' }
   ] satisfies PricePlan[],
   trialClass: {
     duration: '50 minutos',

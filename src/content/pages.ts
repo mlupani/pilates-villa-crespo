@@ -41,13 +41,13 @@ export const pages = {
   schedule: {
     path: routes.schedule,
     seo: {
-      title: 'Horarios y precios de Pilates en Villa Crespo',
-      description: 'Consultá horarios y planes de Pilates Reformer en Villa Crespo. Valores publicados y disponibilidad confirmada al reservar tu clase de prueba sin cargo.'
+      title: 'Horarios y planes de Pilates en Villa Crespo',
+      description: 'Consultá horarios y planes de Pilates Reformer en Villa Crespo. Disponibilidad confirmada al reservar tu clase de prueba sin cargo.'
     },
     hero: {
       eyebrow: 'Información práctica',
       title: 'Horarios, planes y cómo reservar tu lugar',
-      description: 'Mirá la grilla de referencia, los planes publicados y consultá disponibilidad. Los cupos se confirman al escribirnos.'
+      description: 'Mirá la grilla de referencia, los planes y consultá disponibilidad. Los cupos se confirman al escribirnos.'
     }
   },
   trial: {
