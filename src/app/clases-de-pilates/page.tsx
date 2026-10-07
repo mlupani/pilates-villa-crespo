@@ -37,13 +37,13 @@ export default function ClasesDePilatesPage () {
           primary={{ href: '#asistente', label: business.cta.trial, intent: 'trial' }}
           secondary={{ href: routes.reformer, label: 'Conocer Reformer' }}
           image={images.pages.classes}
-          chips={['Reformer', 'Personalizado']}
+          chips={['Reformer']}
         />
         <Editorial
           eyebrow='Cómo elegir'
-          title='No hay una clase “mejor”: hay una que se adapta a vos'
+          title='Una clase que se adapta a vos'
           paragraphs={[
-            'En el estudio trabajamos dos modalidades: Pilates Reformer y Pilates Personalizado. Las dos apuntan a fuerza, movilidad y control, con grupos de hasta 5 alumnos o seguimiento uno a uno.',
+            'En el estudio trabajamos Pilates Reformer, una práctica que apunta a fuerza, movilidad y control, con grupos de hasta 5 alumnos.',
             'Si es tu primera vez, no hace falta decidirlo todo ahora. En una clase de prueba sin cargo vemos juntas qué te queda más cómodo. Si ya sabés que te interesa la máquina, podés ir directo a Reformer.'
           ]}
           tone='cream'

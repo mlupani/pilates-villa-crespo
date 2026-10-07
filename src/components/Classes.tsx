@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import { ArrowUpRight } from 'lucide-react'
 import { SmartLink } from '@/components/SmartLink'
 import { business } from '@/content/business'
 import { images } from '@/content/images'
@@ -9,19 +8,17 @@ const classFacts = [
   'Pilates Reformer',
   'Enfoque clásico y contemporáneo',
   'Clases de 50 minutos',
-  'Grupal o individual',
   'Hasta 5 alumnos',
   'Se adapta a tu nivel'
 ]
 
 function classHref (id: string) {
   if (id === 'reformer') return routes.reformer
-  if (id === 'personal') return `${routes.classes}#pilates-personalizado`
   return `${routes.classes}#pilates-${id}`
 }
 
 export function Classes () {
-  const [reformer, ...others] = business.classes
+  const reformer = business.classes[0]
   const reformerImage = images.classes[reformer.imageKey]
 
   return (
@@ -35,7 +32,7 @@ export function Classes () {
             Una hora para vos, con seguimiento cercano
           </h2>
           <p className='mt-5 max-w-xl text-base leading-relaxed text-stone'>
-            Reformer es el corazón del estudio, con sesiones personalizadas según lo que necesites.
+            Reformer es el corazón del estudio, con clases en grupos reducidos y atención cercana.
           </p>
         </div>
 
@@ -89,48 +86,6 @@ export function Classes () {
           <p className='mt-2 text-sm leading-relaxed text-stone'>
             Además de la grilla fija, podés tener <span className='font-semibold text-ink'>horarios libres</span> según tu disponibilidad. Cuando alguien avisa que falta, se libera un lugar y lo avisamos en el grupo de alumnas: cualquier alumna —sobre todo quienes tienen horarios libres— puede tomar ese hueco.
           </p>
-        </div>
-
-        <div className='mt-6 grid gap-6 md:grid-cols-2'>
-          {others.map((item, index) => {
-            const image = images.classes[item.imageKey]
-
-            return (
-              <article
-                key={item.id}
-                className={`reveal group overflow-hidden rounded-[1.6rem] bg-paper shadow-[0_12px_40px_rgba(31,27,24,0.05)] ${index === 1 ? 'reveal-2' : ''}`}
-              >
-                <div className='img-zoom relative aspect-[16/11]'>
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    fill
-                    sizes='(max-width: 768px) 92vw, 45vw'
-                    quality={70}
-                    className='object-cover object-[center_30%]'
-                  />
-                </div>
-                <div className='px-6 py-6'>
-                  <p className='text-xs font-semibold uppercase tracking-[0.16em] text-olive'>
-                    {item.forWhom}
-                  </p>
-                  <h3 className='mt-2 font-display text-2xl font-medium text-ink'>
-                    {item.name}
-                  </h3>
-                  <p className='mt-2 text-sm leading-relaxed text-stone'>
-                    {item.description}
-                  </p>
-                  <SmartLink
-                    href={classHref(item.id)}
-                    className='mt-5 inline-flex items-center gap-1 text-sm font-semibold text-clay transition-colors duration-300 hover:text-clay-dark'
-                  >
-                    {business.cta.knowMore}
-                    <ArrowUpRight className='size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5' />
-                  </SmartLink>
-                </div>
-              </article>
-            )
-          })}
         </div>
       </div>
     </section>

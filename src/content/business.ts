@@ -24,7 +24,7 @@ export interface ClassItem {
   name: string
   description: string
   forWhom: string
-  imageKey: 'reformer' | 'mat' | 'personal'
+  imageKey: 'reformer' | 'mat'
 }
 
 export interface LocationDetail {
@@ -213,16 +213,9 @@ export const business = {
     {
       id: 'reformer',
       name: 'Pilates Reformer',
-      description: 'Trabajo de fuerza, movilidad, control y equilibrio en máquina, con un enfoque clásico y contemporáneo. Clases de 50 minutos, en grupos de hasta 5 alumnos o en modalidad individual.',
+      description: 'Trabajo de fuerza, movilidad, control y equilibrio en máquina, con un enfoque clásico y contemporáneo. Clases de 50 minutos, en grupos de hasta 5 alumnos.',
       forWhom: 'Hasta 5 alumnos · 50 minutos',
       imageKey: 'reformer'
-    },
-    {
-      id: 'personal',
-      name: 'Pilates Personalizado',
-      description: 'Una sesión individual, 100% adaptada a tus objetivos, ritmos y necesidades, con seguimiento cercano.',
-      forWhom: 'Modalidad individual',
-      imageKey: 'personal'
     }
   ] satisfies ClassItem[],
   testimonials: [
