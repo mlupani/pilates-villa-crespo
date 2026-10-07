@@ -6,8 +6,7 @@ import { routes } from '@/lib/routes'
 import { business } from '@/content/business'
 
 const imageById = {
-  reformer: images.classes.reformer,
-  personal: images.classes.personal
+  reformer: images.classes.reformer
 } as const
 
 export function ClassGuide () {
@@ -21,7 +20,7 @@ export function ClassGuide () {
           return (
             <article
               key={item.id}
-              id={`pilates-${item.id === 'personal' ? 'personalizado' : item.id}`}
+              id={`pilates-${item.id}`}
               className='grid items-center gap-10 lg:grid-cols-2'
             >
               <div className={`img-zoom relative aspect-[4/5] overflow-hidden rounded-[1.6rem] ${reverse ? 'lg:order-2' : ''}`}>
@@ -83,11 +82,11 @@ export function ClassLinks () {
             Qué clases hay en el estudio
           </h2>
         </div>
-        <div className='mt-12 grid gap-6 md:grid-cols-3'>
+        <div className='mt-12 grid max-w-xl gap-6'>
           {business.classes.map((item) => {
             const href = item.id === 'reformer'
               ? routes.reformer
-              : `${routes.classes}#pilates-${item.id === 'personal' ? 'personalizado' : item.id}`
+              : `${routes.classes}#pilates-${item.id}`
 
             return (
               <article

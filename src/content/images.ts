@@ -65,12 +65,6 @@ export const images = {
       alt: 'Trabajo de lado en Reformer, con seguimiento durante la clase',
       width: 640,
       height: 800
-    },
-    personal: {
-      src: local.reformerDetail,
-      alt: 'Trabajo de precisión en Reformer, con bandas y springs',
-      width: 1440,
-      height: 1801
     }
   },
   reformerIntro: {

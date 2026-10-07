@@ -17,13 +17,13 @@ export const pages = {
   classes: {
     path: routes.classes,
     seo: {
-      title: 'Clases de Pilates Reformer y Personalizadas',
-      description: 'Conocé las clases de Pilates Reformer y personalizadas en Villa Crespo. Elegí la modalidad que mejor se adapte a vos y reservá una clase de prueba sin cargo.'
+      title: 'Clases de Pilates Reformer',
+      description: 'Conocé las clases de Pilates Reformer en Villa Crespo y reservá una clase de prueba sin cargo.'
     },
     hero: {
       eyebrow: 'Modalidades',
       title: 'Dos formas de practicar Pilates, según lo que necesites',
-      description: 'Reformer en grupo reducido o una sesión personalizada. Las dos se adaptan a tu nivel: no hace falta haber practicado antes para empezar.'
+      description: 'Reformer en grupo reducido, adaptado a tu nivel: no hace falta haber practicado antes para empezar.'
     }
   },
   reformer: {
@@ -73,15 +73,6 @@ export const classGuide = [
     what: 'Es la práctica sobre la máquina Reformer: un carro móvil, springs y accesorios que acompañan cada ejercicio. Permite trabajar fuerza, movilidad y control con más contención que el trabajo solo en el piso.',
     who: 'Sirve si nunca hiciste Pilates, si volvés a moverte o si ya practicás y buscás un espacio más cuidado. La máquina se regula: no hace falta “saber” usarla de antemano.',
     next: 'Si te interesa esta modalidad, podés leer cómo es una clase de Reformer o ir directo a reservar una clase de prueba.'
-  },
-  {
-    id: 'personal',
-    name: 'Pilates Personalizado',
-    forWhom: 'Objetivos específicos',
-    href: `${routes.classes}#pilates-personalizado`,
-    what: 'Es una sesión pensada 100% para una persona: ritmo, objetivos y necesidades de ese momento. Hay más tiempo para corregir, adaptar y seguir de cerca cada movimiento.',
-    who: 'Tiene sentido si buscás un trabajo más puntual, si preferís no estar en grupo, o si querés una mirada más detallada sobre tu práctica.',
-    next: 'La disponibilidad de sesiones personalizadas se confirma al consultar. Podés empezar por una clase de prueba y, si hace falta, vemos esta opción.'
   }
 ] as const
 
@@ -96,7 +87,7 @@ export const reformerGuide = {
   ],
   who: [
     'Puede servirte si nunca hiciste Pilates, si estás volviendo a moverte o si ya practicás y querés un espacio más íntimo. También si te interesa trabajar postura y fuerza sin un formato de gym tradicional.',
-    'Si tenés una lesión, una operación reciente o una necesidad muy puntual, avisanos al reservar. Vemos juntas si esta clase es el mejor primer paso o si conviene una sesión más personalizada.'
+    'Si tenés una lesión, una operación reciente o una necesidad muy puntual, avisanos al reservar. Vemos juntas si esta clase es el mejor primer paso.'
   ],
   firstClass: [
     'Llegá unos minutos antes. Traé ropa cómoda, agua y medias antideslizantes si las usás. El resto está en el estudio.',

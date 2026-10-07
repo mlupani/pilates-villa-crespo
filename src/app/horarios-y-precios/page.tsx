@@ -61,7 +61,7 @@ export default function HorariosYPreciosPage () {
         <RelatedPages
           links={[
             { href: routes.trial, label: 'Clase de prueba', detail: 'Cómo es la primera visita y qué tenés que llevar.' },
-            { href: routes.classes, label: 'Clases de Pilates', detail: 'Reformer o personalizado.' },
+            { href: routes.classes, label: 'Clases de Pilates', detail: 'Conocé cómo es la clase de Reformer.' },
             { href: routes.villaCrespo, label: 'Cómo llegar', detail: 'Batalla del Pari 484, Villa Crespo.' }
           ]}
         />
